@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.chart-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+.controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #6A5ACD;
+}
+
+.total-sales {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 16px;
+    border: 1px solid #ddd;
+}
+
+.total-sales h3 {
+    margin: 0 0 10px;
+    color: #333;
+    font-size: 18px;
+}
+
+.total-sales ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.total-sales li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-sales li:last-child {
+    border-bottom: none;
+}
+
+.total-sales li span.label {
+    color: #444;
+    font-weight: bold;
+}
+
+.total-sales li span.value {
+    color: #6A5ACD;
+}

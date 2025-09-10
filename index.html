@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продажі товарів</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>Продажі товарів</h1>
+    <div class="controls">
+        <label for="productSelect">Виберіть товар: </label>
+        <select id="productSelect" onchange="updateChart()">
+            <option value="Худі Утеплений Kufaika Unisex">Худі Утеплений Kufaika Unisex</option>
+        </select>
+        <label for="chartType">Виберіть тип графіка: </label>
+        <select id="chartType" onchange="updateChart()">
+            <option value="byColor">Продажі за кольорами</option>
+            <option value="Чорний">Розміри для Чорний</option>
+            <option value="Білий">Розміри для Білий</option>
+            <option value="Ніжно-рожевий">Розміри для Ніжно-рожевий</option>
+            <option value="Бежевий">Розміри для Бежевий</option>
+            <option value="Олива">Розміри для Олива</option>
+            <option value="Сірий Грі">Розміри для Сірий Грі</option>
+            <option value="Хакі">Розміри для Хакі</option>
+            <option value="Інший Колір">Розміри для Інший Колір</option>
+        </select>
+    </div>
+    <div class="chart-container">
+        <h2 id="chartTitle">Продажі за кольором по місяцях</h2>
+        <canvas id="salesChart"></canvas>
+        <div id="totalSales" class="total-sales"></div>
+    </div>
+</body>
+</html>
