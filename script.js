@@ -1425,15 +1425,13 @@ const salesData = {
 }
 
 let salesChart;
-
 // Define sizes
 const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
-
 // Function to assign colors
 function getColor(name) {
     const colorMap = {
         'Чорний': '#000000',
-        'Білий': '#E0E0E0', // Changed from #FFFFFF to avoid blending with background
+        'Білий': '#E0E0E0',
         'Ніжно-рожевий': '#FFC1CC',
         'Бежевий': '#F5F5DC',
         'Олива': '#808000',
@@ -1452,25 +1450,22 @@ function getColor(name) {
     };
     return colorMap[name] || '#000000';
 }
-
 // Function to calculate total sales for a dataset
 function calculateTotalSales(data) {
     return data.reduce((sum, value) => sum + value, 0);
 }
-
 // Function to update total sales display
 function updateTotalSales(datasets) {
     const totalSalesDiv = document.getElementById('totalSales');
     let html = '<h3>Загальні суми продажів:</h3><ul>';
     datasets.forEach(dataset => {
         const total = calculateTotalSales(dataset.data);
-        const label = dataset.label.split(' (Загалом:')[0]; // Remove total from label if present
+        const label = dataset.label.split(' (Загалом:')[0];
         html += `<li><span class="label">${label}</span><span class="value">${total}</span></li>`;
     });
     html += '</ul>';
     totalSalesDiv.innerHTML = html;
 }
-
 // Function to get colors for a product
 function getProductColors(productData) {
     const colorSet = new Set();
@@ -1479,7 +1474,6 @@ function getProductColors(productData) {
     });
     return Array.from(colorSet);
 }
-
 // Function to update product dropdown
 function updateProductSelect() {
     const productSelect = document.getElementById('productSelect');
@@ -1487,6 +1481,7 @@ function updateProductSelect() {
     if (!salesData.products || salesData.products.length === 0) {
         productSelect.innerHTML = '<option value="">Немає продуктів</option>';
         document.getElementById('totalSales').innerHTML = '<p style="color: red;">Помилка: Немає продуктів у даних</p>';
+        console.error('salesData.products is empty or undefined');
         return;
     }
     salesData.products.forEach(product => {
@@ -1495,16 +1490,18 @@ function updateProductSelect() {
         option.textContent = product.name;
         productSelect.appendChild(option);
     });
+    console.log('Product select updated with', salesData.products.length, 'products');
 }
-
 // Function to update chart type dropdown
 function updateChartTypes() {
     const productSelect = document.getElementById('productSelect').value;
     const chartTypeSelect = document.getElementById('chartType');
-    const productData = salesData.products.find(p => p.name === productSelect);
     chartTypeSelect.innerHTML = '<option value="byColor">Продажі за кольорами</option>';
-    if (!productData) return;
-
+    const productData = salesData.products.find(p => p.name === productSelect);
+    if (!productData) {
+        console.error('No product data for', productSelect);
+        return;
+    }
     const colors = getProductColors(productData);
     colors.forEach(color => {
         const option = document.createElement('option');
@@ -1512,30 +1509,25 @@ function updateChartTypes() {
         option.textContent = `Розміри для ${color}`;
         chartTypeSelect.appendChild(option);
     });
+    console.log('Chart types updated with', colors.length, 'colors');
 }
-
 // Function to update chart based on selection
 function updateChart() {
     const productSelect = document.getElementById('productSelect').value;
     const chartType = document.getElementById('chartType').value;
     const chartTitle = document.getElementById('chartTitle');
-
-    // Find selected product data
     const productData = salesData.products.find(p => p.name === productSelect);
     if (!productData) {
         chartTitle.textContent = 'Дані недоступні';
         document.getElementById('totalSales').innerHTML = '<p style="color: red;">Помилка: Вибраний продукт не знайдено</p>';
+        console.error('Product not found:', productSelect);
         return;
     }
-
     const colors = getProductColors(productData);
     const months = productData.months.map(m => `${m.month} ${m.year}`);
-
     let datasets = [];
     let titleText = '';
-
     if (chartType === 'byColor') {
-        // Sales by color
         datasets = colors.map(color => {
             const data = productData.months.map(month => {
                 return month.colors[color] ? month.colors[color].reduce((sum, item) => sum + item.quantity, 0) : 0;
@@ -1550,7 +1542,6 @@ function updateChart() {
         });
         titleText = `Продажі за кольором для ${productSelect} по місяцях`;
     } else {
-        // Sales by size for selected color
         datasets = sizes.map(size => {
             const data = productData.months.map(month => {
                 const colorData = month.colors[chartType];
@@ -1567,17 +1558,72 @@ function updateChart() {
         });
         titleText = `Продажі за розмірами для кольору ${chartType} (${productSelect}) по місяцях`;
     }
-
-    // Update total sales display
     updateTotalSales(datasets);
-
-    // Destroy previous chart if exists
     if (salesChart) {
         salesChart.destroy();
     }
-
-    // Update chart title
     chartTitle.textContent = titleText;
+    salesChart = new Chart(document.getElementById('salesChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Кількість продажів'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Місяці'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                },
+                datalabels: {  // Налаштування для плагіна datalabels
+                    display: true,
+                    align: 'end',
+                    anchor: 'end',
+                    formatter: (value) => value > 0 ? value : ''
+                }
+            }
+        }
+    });
+    console.log('Chart updated for', productSelect, 'with type', chartType);
+}
+// Функція ініціалізації
+function init() {
+    console.log('Init started. salesData:', salesData ? 'defined' : 'undefined');
+    if (typeof ChartDataLabels !== 'undefined') {
+        Chart.register(ChartDataLabels);
+        console.log('ChartDataLabels registered');
+    } else {
+        console.warn('ChartDataLabels not loaded');
+    }
+    updateProductSelect();
+    updateChartTypes();
+    updateChart();
+    document.getElementById('productSelect').addEventListener('change', () => {
+        updateChartTypes();
+        updateChart();
+    });
+    document.getElementById('chartType').addEventListener('change', updateChart);
+}
 
-    // Create new chart
-    salesChart = new Chart(document.getElementById('salesChart
+// Запуск після завантаження DOM
+document.addEventListener('DOMContentLoaded', init);
