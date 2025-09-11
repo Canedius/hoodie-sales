@@ -12,20 +12,27 @@ h1 {
 .chart-container {
     max-width: 1000px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 10px; /* Зменшено для мобільних */
     background: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    overflow-x: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: hidden; /* Уникаємо горизонтальної прокрутки */
+    width: 100%; /* Повна ширина на всіх пристроях */
+    box-sizing: border-box; /* Враховуємо padding у ширині */
 }
 
 canvas {
     max-width: 100%;
+    height: auto; /* Забезпечує адаптивну висоту */
 }
 
 .controls {
     text-align: center;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Вертикально для мобільних за замовчуванням */
+    align-items: center;
+    gap: 10px; /* Проміжок між елементами */
 }
 
 select {
@@ -35,7 +42,9 @@ select {
     border: 1px solid #ccc;
     background-color: #fff;
     cursor: pointer;
-    margin: 0 10px;
+    width: 100%; /* Повна ширина на всіх пристроях */
+    max-width: 300px; /* Обмежуємо ширину для великих екранів */
+    box-sizing: border-box;
 }
 
 select:focus {
@@ -51,6 +60,7 @@ select:focus {
     text-align: left;
     font-size: 16px;
     border: 1px solid #ddd;
+    overflow-x: hidden; /* Уникаємо горизонтальної прокрутки */
 }
 
 .total-sales h3 {
@@ -70,6 +80,7 @@ select:focus {
     border-bottom: 1px solid #eee;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap; /* Дозволяємо переносити на малих екранах */
 }
 
 .total-sales li:last-child {
@@ -79,8 +90,81 @@ select:focus {
 .total-sales li span.label {
     color: #444;
     font-weight: bold;
+    flex: 1; /* Адаптивна ширина для назви */
+    min-width: 150px; /* Мінімальна ширина для читабельності */
 }
 
 .total-sales li span.value {
     color: #6A5ACD;
+    flex: 0 0 auto; /* Фіксована ширина для значення */
+}
+
+/* Медіа-запит для мобільних (екрани до 768px) */
+@media (max-width: 768px) {
+    .chart-container {
+        max-width: 100%; /* Повна ширина */
+        padding: 10px;
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto !important; /* Примусово адаптивна висота */
+    }
+
+    .controls {
+        flex-direction: column; /* Вертикально для мобільних */
+        align-items: stretch; /* Селекти займають всю ширину */
+    }
+
+    select {
+        width: 100%;
+        margin: 5px 0; /* Менший відступ для компактності */
+        font-size: 14px; /* Менший шрифт для мобільних */
+    }
+
+    .total-sales {
+        font-size: 14px; /* Менший шрифт для списку */
+    }
+
+    .total-sales ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .total-sales li {
+        flex-direction: column; /* Назва і значення вертикально */
+        align-items: flex-start;
+        gap: 5px; /* Проміжок між назвою і значенням */
+    }
+
+    .total-sales li span.label {
+        min-width: 0; /* Уникаємо обмеження ширини */
+    }
+}
+
+/* Для дуже маленьких екранів (до 480px) */
+@media (max-width: 480px) {
+    body {
+        margin: 10px; /* Менші відступи */
+    }
+
+    h1 {
+        font-size: 20px; /* Менший заголовок */
+    }
+
+    .chart-container {
+        padding: 5px;
+    }
+
+    select {
+        font-size: 12px; /* Ще менший шрифт */
+    }
+
+    .total-sales {
+        font-size: 12px;
+    }
+
+    .total-sales h3 {
+        font-size: 16px;
+    }
 }
