@@ -13,20 +13,14 @@
     <h1>Продажі товарів</h1>
     <div class="controls">
         <label for="productSelect">Виберіть товар: </label>
-        <select id="productSelect" onchange="updateChart()">
+        <select id="productSelect" onchange="updateChartTypes(); updateChart();">
             <option value="Худі Утеплений Kufaika Unisex">Худі Утеплений Kufaika Unisex</option>
+            <option value="Футболка Kufaika Unisex">Футболка Kufaika Unisex</option>
         </select>
         <label for="chartType">Виберіть тип графіка: </label>
         <select id="chartType" onchange="updateChart()">
             <option value="byColor">Продажі за кольорами</option>
-            <option value="Чорний">Розміри для Чорний</option>
-            <option value="Білий">Розміри для Білий</option>
-            <option value="Ніжно-рожевий">Розміри для Ніжно-рожевий</option>
-            <option value="Бежевий">Розміри для Бежевий</option>
-            <option value="Олива">Розміри для Олива</option>
-            <option value="Сірий Грі">Розміри для Сірий Грі</option>
-            <option value="Хакі">Розміри для Хакі</option>
-            <option value="Інший Колір">Розміри для Інший Колір</option>
+            <!-- Динамічно оновлюється для кольорів -->
         </select>
     </div>
     <div class="chart-container">
