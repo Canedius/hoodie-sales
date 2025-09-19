@@ -2,39 +2,49 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
     background-color: #f4f4f9;
+    min-height: 100vh;
 }
-
 h1 {
     text-align: center;
     color: #333;
 }
-
 .chart-container {
     max-width: 1000px;
     margin: 20px auto;
-    padding: 10px; /* Зменшено для мобільних */
+    padding: 20px;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-x: hidden; /* Уникаємо горизонтальної прокрутки */
-    width: 100%; /* Повна ширина на всіх пристроях */
-    box-sizing: border-box; /* Враховуємо padding у ширині */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
-
+.chart-section {
+    margin-bottom: 20px;
+}
 canvas {
     max-width: 100%;
-    height: auto; /* Забезпечує адаптивну висоту */
+    max-height: 400px;
+    height: auto !important;
+    width: 100%;
+    margin-bottom: 10px;
 }
-
 .controls {
     text-align: center;
     margin-bottom: 20px;
     display: flex;
-    flex-direction: column; /* Вертикально для мобільних за замовчуванням */
-    align-items: center;
-    gap: 10px; /* Проміжок між елементами */
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
 }
-
+.weekly-demand-controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
 select {
     padding: 10px;
     font-size: 16px;
@@ -42,129 +52,155 @@ select {
     border: 1px solid #ccc;
     background-color: #fff;
     cursor: pointer;
-    width: 100%; /* Повна ширина на всіх пристроях */
-    max-width: 300px; /* Обмежуємо ширину для великих екранів */
-    box-sizing: border-box;
+    width: 100%;
+    max-width: 300px;
 }
-
 select:focus {
     outline: none;
     border-color: #6A5ACD;
 }
-
 .total-sales {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 15px;
     background-color: #f9f9f9;
     border-radius: 5px;
     text-align: left;
     font-size: 16px;
     border: 1px solid #ddd;
-    overflow-x: hidden; /* Уникаємо горизонтальної прокрутки */
 }
-
 .total-sales h3 {
     margin: 0 0 10px;
     color: #333;
     font-size: 18px;
 }
-
+.total-sales h4 {
+    margin: 10px 0 5px;
+    color: #444;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.total-sales .color-square {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
 .total-sales ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
-
 .total-sales li {
     padding: 8px 0;
     border-bottom: 1px solid #eee;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap; /* Дозволяємо переносити на малих екранах */
+    flex-wrap: wrap;
 }
-
 .total-sales li:last-child {
     border-bottom: none;
 }
-
 .total-sales li span.label {
     color: #444;
     font-weight: bold;
-    flex: 1; /* Адаптивна ширина для назви */
-    min-width: 150px; /* Мінімальна ширина для читабельності */
+    flex: 1;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-
 .total-sales li span.value {
     color: #6A5ACD;
-    flex: 0 0 auto; /* Фіксована ширина для значення */
+    flex: 0 0 auto;
 }
-
-/* Медіа-запит для мобільних (екрани до 768px) */
+#weeklyDemandList ul.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+#weeklyDemandList li.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 @media (max-width: 768px) {
     .chart-container {
-        max-width: 100%; /* Повна ширина */
+        max-width: 100%;
         padding: 10px;
     }
-
+    .chart-section {
+        margin-bottom: 15px;
+    }
     canvas {
-        max-width: 100%;
-        height: auto !important; /* Примусово адаптивна висота */
+        max-height: 300px;
     }
-
     .controls {
-        flex-direction: column; /* Вертикально для мобільних */
-        align-items: stretch; /* Селекти займають всю ширину */
-    }
-
-    select {
-        width: 100%;
-        margin: 5px 0; /* Менший відступ для компактності */
-        font-size: 14px; /* Менший шрифт для мобільних */
-    }
-
-    .total-sales {
-        font-size: 14px; /* Менший шрифт для списку */
-    }
-
-    .total-sales ul {
-        display: flex;
         flex-direction: column;
+        align-items: stretch;
     }
-
-    .total-sales li {
-        flex-direction: column; /* Назва і значення вертикально */
-        align-items: flex-start;
-        gap: 5px; /* Проміжок між назвою і значенням */
+    .weekly-demand-controls {
+        flex-direction: column;
+        align-items: stretch;
     }
-
+    select {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+    .total-sales {
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    .total-sales h3 {
+        font-size: 16px;
+    }
+    .total-sales h4 {
+        font-size: 14px;
+    }
+    .total-sales .color-square {
+        width: 14px;
+        height: 14px;
+    }
     .total-sales li span.label {
-        min-width: 0; /* Уникаємо обмеження ширини */
+        min-width: 0;
     }
 }
-
-/* Для дуже маленьких екранів (до 480px) */
 @media (max-width: 480px) {
     body {
-        margin: 10px; /* Менші відступи */
+        margin: 10px;
     }
-
     h1 {
-        font-size: 20px; /* Менший заголовок */
+        font-size: 20px;
     }
-
     .chart-container {
         padding: 5px;
     }
-
-    select {
-        font-size: 12px; /* Ще менший шрифт */
+    canvas {
+        max-height: 250px;
     }
-
+    select {
+        font-size: 12px;
+    }
     .total-sales {
         font-size: 12px;
     }
-
     .total-sales h3 {
         font-size: 16px;
+    }
+    .total-sales h4 {
+        font-size: 12px;
+    }
+    .total-sales .color-square {
+        width: 12px;
+        height: 12px;
     }
 }

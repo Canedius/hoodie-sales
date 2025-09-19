@@ -13,19 +13,34 @@
     <h1>Продажі товарів</h1>
     <div class="controls">
         <label for="productSelect">Виберіть товар: </label>
-        <select id="productSelect" onchange="updateChartTypes(); updateChart();">
-            <!-- Динамічно заповнюється з JSON -->
-        </select>
+        <select id="productSelect"></select>
         <label for="chartType">Виберіть тип графіка: </label>
-        <select id="chartType" onchange="updateChart()">
-            <option value="byColor">Продажі за кольорами</option>
-            <!-- Динамічно оновлюється для кольорів -->
+        <select id="chartType">
+            <option value="byColor">Продажі та попит за кольорами</option>
         </select>
     </div>
     <div class="chart-container">
-        <h2 id="chartTitle">Продажі за кольором по місяцях</h2>
-        <canvas id="salesChart"></canvas>
-        <div id="totalSales" class="total-sales"></div>
+        <div class="chart-section">
+            <h2 id="salesChartTitle">Продажі по місяцях</h2>
+            <canvas id="salesChart" style="max-height: 400px;"></canvas>
+            <div id="totalSales" class="total-sales"></div>
+        </div>
+        <div class="chart-section">
+            <h2 id="dailyDemandChartTitle">Щоденний попит по місяцях</h2>
+            <canvas id="dailyDemandChart" style="max-height: 400px;"></canvas>
+            <div id="weeklyDemand" class="total-sales">
+                <h3>Щотижневий попит розмірів по місяцях:</h3>
+                <div class="weekly-demand-controls">
+                    <label for="yearSelect">Виберіть рік: </label>
+                    <select id="yearSelect"></select>
+                    <label for="monthSelect">Виберіть місяць: </label>
+                    <select id="monthSelect"></select>
+                    <label for="colorSelect">Виберіть колір: </label>
+                    <select id="colorSelect"></select>
+                </div>
+                <div id="weeklyDemandList"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
