@@ -1725,6 +1725,134 @@ export const salesData = {
       "name": "Футболка OVERSIZE Kufaika",
       "months": [
         {
+          "month": "Травень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M/L", "quantity": 6},
+              {"size": "XL/XXL", "quantity": 3},
+              {"size": "XS/S", "quantity": 1}
+            ],
+            "Білий": [
+              {"size": "M/L", "quantity": 6},
+              {"size": "XS/S", "quantity": 2},
+              {"size": "XL/XXL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Червень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M/L", "quantity": 44},
+              {"size": "XS/S", "quantity": 16},
+              {"size": "XL/XXL", "quantity": 10}
+            ],
+            "Білий": [
+              {"size": "M/L", "quantity": 34},
+              {"size": "XS/S", "quantity": 24},
+              {"size": "XL/XXL", "quantity": 12}
+            ]
+          }
+        },
+        {
+          "month": "Липень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M/L", "quantity": 57},
+              {"size": "XS/S", "quantity": 24},
+              {"size": "XL/XXL", "quantity": 20}
+            ],
+            "Білий": [
+              {"size": "M/L", "quantity": 26},
+              {"size": "XL/XXL", "quantity": 14},
+              {"size": "XS/S", "quantity": 12}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2024,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 92},
+              {"size": "XL/XXL", "quantity": 24},
+              {"size": "XS/S", "quantity": 21}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 62},
+              {"size": "XL/XXL", "quantity": 22},
+              {"size": "XS/S", "quantity": 13}
+            ]
+          }
+        },
+        {
+          "month": "Вересень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M/L", "quantity": 101},
+              {"size": "XS/S", "quantity": 29},
+              {"size": "XL/XXL", "quantity": 27}
+            ],
+            "Білий": [
+              {"size": "M/L", "quantity": 33},
+              {"size": "XS/S", "quantity": 13},
+              {"size": "XL/XXL", "quantity": 8}
+            ]
+          }
+        },
+        {
+          "month": "Жовтень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M/L", "quantity": 80},
+              {"size": "XL/XXL", "quantity": 34},
+              {"size": "XS/S", "quantity": 19}
+            ],
+            "Білий": [
+              {"size": "M/L", "quantity": 30},
+              {"size": "XS/S", "quantity": 10},
+              {"size": "XL/XXL", "quantity": 4}
+            ]
+          }
+        },
+        {
+          "month": "Листопад",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M/L", "quantity": 35},
+              {"size": "XL/XXL", "quantity": 20},
+              {"size": "XS/S", "quantity": 16}
+            ],
+            "Білий": [
+              {"size": "M/L", "quantity": 7},
+              {"size": "XL/XXL", "quantity": 4},
+              {"size": "XS/S", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Грудень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M/L", "quantity": 43},
+              {"size": "XL/XXL", "quantity": 31},
+              {"size": "XS/S", "quantity": 7}
+            ],
+            "Білий": [
+              {"size": "M/L", "quantity": 19},
+              {"size": "XS/S", "quantity": 11},
+              {"size": "XL/XXL", "quantity": 2}
+            ]
+          }
+        },
+        {
           "month": "Січень",
           "year": 2025,
           "colors": {
