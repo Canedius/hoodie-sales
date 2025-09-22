@@ -53,6 +53,38 @@ function getProductSizes(productData) {
 function calculateTotalSales(data) {
     return data.reduce((sum, value) => sum + value, 0);
 }
+
+function formatNumber(value, decimals = 0) {
+    const factor = Math.pow(10, decimals);
+    let rounded = Math.round(value * factor) / factor;
+    if (Object.is(rounded, -0)) {
+        rounded = 0;
+    }
+    if (decimals > 0) {
+        return rounded
+            .toFixed(decimals)
+            .replace(/\.0+$/, '')
+            .replace(/(\.\d*[1-9])0+$/, '$1');
+    }
+    return rounded.toString();
+}
+
+function formatDelta(delta, decimals = 0) {
+    if (delta === null || typeof delta === 'undefined') {
+        return '';
+    }
+    const factor = Math.pow(10, decimals);
+    let roundedDelta = Math.round(delta * factor) / factor;
+    if (Object.is(roundedDelta, -0)) {
+        roundedDelta = 0;
+    }
+    const sign = roundedDelta > 0 ? '+' : '';
+    const className = roundedDelta > 0 ? 'positive' : roundedDelta < 0 ? 'negative' : 'neutral';
+    const formatted = decimals > 0
+        ? formatNumber(roundedDelta, decimals)
+        : formatNumber(roundedDelta, 0);
+    return `<span class="diff ${className}">(${sign}${formatted})</span>`;
+}
 // Helper to get month index (0-based)
 function getMonthIndex(monthName) {
     const monthMap = {
@@ -135,14 +167,43 @@ function getSelectedYear() {
     return Number.isNaN(yearValue) ? null : yearValue;
 }
 // Function to update total sales display
-function updateTotalSales(datasets) {
+function updateTotalSales(productData, filteredMonths, chartType, datasets) {
     const totalSalesDiv = document.getElementById('totalSales');
     let html = '<h3>Загальні суми продажів:</h3><ul>';
+    const selectedYear = filteredMonths.length > 0 ? filteredMonths[0].year : null;
+    const previousYear = selectedYear !== null ? selectedYear - 1 : null;
+    const monthNames = filteredMonths.map(month => month.month);
+    const previousYearMonths = previousYear !== null
+        ? productData.months.filter(month => month.year === previousYear && monthNames.includes(month.month))
+        : [];
+    const hasPreviousData = previousYearMonths.length > 0;
     datasets.forEach(dataset => {
         const total = calculateTotalSales(dataset.data);
         const label = dataset.label.split(' (Щоденний)')[0];
         const color = getColor(label);
-        html += `<li><span class="label"><span class="color-square" style="background-color: ${color};"></span>${label}</span><span class="value">${total}</span></li>`;
+        let previousTotal = 0;
+        if (hasPreviousData) {
+            if (chartType === 'byColor') {
+                previousTotal = previousYearMonths.reduce((sum, month) => {
+                    const colorData = month.colors[label];
+                    if (!colorData) {
+                        return sum;
+                    }
+                    return sum + colorData.reduce((acc, item) => acc + item.quantity, 0);
+                }, 0);
+            } else {
+                previousTotal = previousYearMonths.reduce((sum, month) => {
+                    const colorData = month.colors[chartType];
+                    if (!colorData) {
+                        return sum;
+                    }
+                    const item = colorData.find(i => i.size === label);
+                    return sum + (item ? item.quantity : 0);
+                }, 0);
+            }
+        }
+        const diffHtml = hasPreviousData ? formatDelta(total - previousTotal) : '';
+        html += `<li><span class="label"><span class="color-square" style="background-color: ${color};"></span>${label}</span><span class="value">${total}${diffHtml ? ` ${diffHtml}` : ''}</span></li>`;
     });
     html += '</ul>';
     totalSalesDiv.innerHTML = html;
@@ -164,7 +225,11 @@ function updateWeeklyDemand(productData) {
     const productSizes = getProductSizes(productData);
     const daysInMonth = getDaysInMonth(month.month, month.year);
     const weeksInMonth = daysInMonth / 7;
+    const previousYear = month.year - 1;
+    const previousMonth = productData.months.find(m => m.year === previousYear && m.month === month.month) || null;
+    const previousWeeksInMonth = previousMonth ? getDaysInMonth(previousMonth.month, previousMonth.year) / 7 : null;
     let totalWeekly = 0; // Для пункту "Усього"
+    let totalPreviousWeekly = 0;
     html += `<h4><span class="color-square" style="background-color: ${colorHex};"></span>${colorSelect}</h4>`;
     html += '<ul class="fade-in">';
     productSizes.forEach(size => {
@@ -172,13 +237,26 @@ function updateWeeklyDemand(productData) {
         const item = colorData ? colorData.find(i => i.size === size) : null;
         const total = item ? item.quantity : 0;
         const weekly = Math.round(total / weeksInMonth * 10) / 10;
-        if (weekly > 0) {
-            html += `<li class="fade-in"><span class="label">${size}</span><span class="value">${weekly}</span></li>`;
-            totalWeekly += weekly;
+        let previousWeekly = null;
+        if (previousMonth && previousWeeksInMonth) {
+            const previousColorData = previousMonth.colors[colorSelect] || [];
+            const previousItem = previousColorData.find(i => i.size === size) || null;
+            const previousTotal = previousItem ? previousItem.quantity : 0;
+            previousWeekly = Math.round(previousTotal / previousWeeksInMonth * 10) / 10;
         }
+        if (previousWeekly !== null) {
+            totalPreviousWeekly += previousWeekly;
+        }
+        if (weekly > 0) {
+            const diffHtml = previousWeekly !== null ? formatDelta(weekly - previousWeekly, 1) : '';
+            html += `<li class="fade-in"><span class="label">${size}</span><span class="value">${weekly}${diffHtml ? ` ${diffHtml}` : ''}</span></li>`;
+        }
+        totalWeekly += weekly;
     });
     totalWeekly = Math.round(totalWeekly * 10) / 10; // Округлення до 1 знака
-    html += `<li class="fade-in"><span class="label">Усього</span><span class="value">${totalWeekly}</span></li>`;
+    totalPreviousWeekly = Math.round(totalPreviousWeekly * 10) / 10;
+    const totalDiffHtml = previousMonth && previousWeeksInMonth ? formatDelta(totalWeekly - totalPreviousWeekly, 1) : '';
+    html += `<li class="fade-in"><span class="label">Усього</span><span class="value">${totalWeekly}${totalDiffHtml ? ` ${totalDiffHtml}` : ''}</span></li>`;
     html += '</ul>';
     weeklyDemandList.innerHTML = html;
     // Remove fade-in class after animation completes
@@ -436,7 +514,7 @@ function updateChart() {
         dailyDemandChartTitle.textContent = `Щоденний попит за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
     }
     // Update total sales
-    updateTotalSales(salesDatasets);
+    updateTotalSales(productData, filteredMonths, chartType, salesDatasets);
     // Update sales chart
     if (salesChart) {
         salesChart.destroy();
