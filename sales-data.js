@@ -1554,6 +1554,547 @@ export const salesData = {
           }
         }
       ]
+    },
+    {
+      "name": "Футболка Relaxed Kufaika",
+      "months": [
+        {
+          "month": "Липень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "XS/S", "quantity": 23},
+              {"size": "M/L", "quantity": 23},
+              {"size": "XL/XXL", "quantity": 3}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 11},
+              {"size": "XS/S", "quantity": 4},
+              {"size": "XL/XXL", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 114},
+              {"size": "XS/S", "quantity": 100},
+              {"size": "XL/XXL", "quantity": 57}
+            ],
+            "Чорний": [
+              {"size": "XS/S", "quantity": 59},
+              {"size": "M/L", "quantity": 51},
+              {"size": "XL/XXL", "quantity": 27}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Футболка Lightness Kufaika",
+      "months": [
+        {
+          "month": "Липень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M", "quantity": 8},
+              {"size": "S", "quantity": 5},
+              {"size": "XS", "quantity": 4},
+              {"size": "L", "quantity": 4}
+            ],
+            "Чорний": [
+              {"size": "M", "quantity": 6},
+              {"size": "S", "quantity": 2},
+              {"size": "L", "quantity": 2},
+              {"size": "XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2025,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 19},
+              {"size": "L", "quantity": 18},
+              {"size": "XL", "quantity": 15},
+              {"size": "S", "quantity": 10},
+              {"size": "2XL", "quantity": 8},
+              {"size": "XS", "quantity": 6},
+              {"size": "3XL", "quantity": 2}
+            ],
+            "Білий": [
+              {"size": "L", "quantity": 6},
+              {"size": "XL", "quantity": 6},
+              {"size": "M", "quantity": 5},
+              {"size": "S", "quantity": 4},
+              {"size": "2XL", "quantity": 4},
+              {"size": "XS", "quantity": 3},
+              {"size": "3XL", "quantity": 1}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Футболка Premium Kufaika",
+      "months": [
+        {
+          "month": "Квітень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 193},
+              {"size": "L", "quantity": 176},
+              {"size": "S", "quantity": 110},
+              {"size": "XL", "quantity": 75},
+              {"size": "XS", "quantity": 39},
+              {"size": "XXL", "quantity": 26},
+              {"size": "3XL", "quantity": 5}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 16},
+              {"size": "L", "quantity": 12},
+              {"size": "XL", "quantity": 8},
+              {"size": "S", "quantity": 6},
+              {"size": "XXL", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Травень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 254},
+              {"size": "L", "quantity": 197},
+              {"size": "XL", "quantity": 98},
+              {"size": "S", "quantity": 74},
+              {"size": "XXL", "quantity": 44},
+              {"size": "XS", "quantity": 12},
+              {"size": "3XL", "quantity": 13}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 57},
+              {"size": "L", "quantity": 41},
+              {"size": "S", "quantity": 39},
+              {"size": "XS", "quantity": 25},
+              {"size": "XL", "quantity": 18},
+              {"size": "XXL", "quantity": 10},
+              {"size": "3XL", "quantity": 5}
+            ]
+          }
+        },
+        {
+          "month": "Червень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 316},
+              {"size": "L", "quantity": 264},
+              {"size": "XL", "quantity": 163},
+              {"size": "S", "quantity": 121},
+              {"size": "XXL", "quantity": 44},
+              {"size": "XS", "quantity": 16},
+              {"size": "3XL", "quantity": 14}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 66},
+              {"size": "L", "quantity": 65},
+              {"size": "S", "quantity": 39},
+              {"size": "XL", "quantity": 34},
+              {"size": "XS", "quantity": 12},
+              {"size": "XXL", "quantity": 5}
+            ],
+            "Олива": [
+              {"size": "M", "quantity": 12},
+              {"size": "L", "quantity": 4},
+              {"size": "S", "quantity": 4},
+              {"size": "XXL", "quantity": 4},
+              {"size": "XL", "quantity": 1}
+            ],
+            "Ніжно-рожевий": [
+              {"size": "M", "quantity": 9},
+              {"size": "S", "quantity": 6},
+              {"size": "L", "quantity": 4},
+              {"size": "XXL", "quantity": 1},
+              {"size": "XS", "quantity": 1},
+              {"size": "XL", "quantity": 1}
+            ],
+            "Бежевий": [
+              {"size": "M", "quantity": 8},
+              {"size": "L", "quantity": 4},
+              {"size": "S", "quantity": 2},
+              {"size": "XXL", "quantity": 1}
+            ],
+            "Сірий": [
+              {"size": "M", "quantity": 8},
+              {"size": "L", "quantity": 8},
+              {"size": "XL", "quantity": 4},
+              {"size": "S", "quantity": 2},
+              {"size": "XXL", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Липень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 481},
+              {"size": "L", "quantity": 359},
+              {"size": "XL", "quantity": 246},
+              {"size": "S", "quantity": 153},
+              {"size": "XXL", "quantity": 106},
+              {"size": "XS", "quantity": 26},
+              {"size": "3XL", "quantity": 48}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 122},
+              {"size": "L", "quantity": 91},
+              {"size": "S", "quantity": 62},
+              {"size": "XL", "quantity": 43},
+              {"size": "XXL", "quantity": 27},
+              {"size": "XS", "quantity": 11},
+              {"size": "3XL", "quantity": 13}
+            ],
+            "Олива": [
+              {"size": "L", "quantity": 66},
+              {"size": "M", "quantity": 57},
+              {"size": "S", "quantity": 22},
+              {"size": "XL", "quantity": 34},
+              {"size": "XXL", "quantity": 15},
+              {"size": "XS", "quantity": 2}
+            ],
+            "Бежевий": [
+              {"size": "L", "quantity": 33},
+              {"size": "M", "quantity": 31},
+              {"size": "S", "quantity": 11},
+              {"size": "XL", "quantity": 11},
+              {"size": "XXL", "quantity": 5},
+              {"size": "XS", "quantity": 3}
+            ],
+            "Ніжно-рожевий": [
+              {"size": "M", "quantity": 30},
+              {"size": "S", "quantity": 17},
+              {"size": "L", "quantity": 12},
+              {"size": "XL", "quantity": 10},
+              {"size": "XS", "quantity": 8},
+              {"size": "XXL", "quantity": 3}
+            ],
+            "Сірий": [
+              {"size": "M", "quantity": 21},
+              {"size": "L", "quantity": 14},
+              {"size": "XL", "quantity": 6},
+              {"size": "S", "quantity": 5},
+              {"size": "XXL", "quantity": 7},
+              {"size": "XS", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 342},
+              {"size": "L", "quantity": 276},
+              {"size": "XL", "quantity": 144},
+              {"size": "S", "quantity": 120},
+              {"size": "XXL", "quantity": 65},
+              {"size": "XS", "quantity": 19},
+              {"size": "3XL", "quantity": 24}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 67},
+              {"size": "L", "quantity": 52},
+              {"size": "S", "quantity": 35},
+              {"size": "XL", "quantity": 23},
+              {"size": "XXL", "quantity": 10},
+              {"size": "XS", "quantity": 8},
+              {"size": "3XL", "quantity": 5}
+            ],
+            "Олива": [
+              {"size": "L", "quantity": 46},
+              {"size": "M", "quantity": 45},
+              {"size": "XL", "quantity": 25},
+              {"size": "S", "quantity": 12},
+              {"size": "XXL", "quantity": 15},
+              {"size": "XS", "quantity": 3},
+              {"size": "3XL", "quantity": 1}
+            ],
+            "Ніжно-рожевий": [
+              {"size": "M", "quantity": 25},
+              {"size": "S", "quantity": 21},
+              {"size": "L", "quantity": 8},
+              {"size": "XL", "quantity": 4},
+              {"size": "XS", "quantity": 7},
+              {"size": "XXL", "quantity": 3}
+            ],
+            "Бежевий": [
+              {"size": "M", "quantity": 17},
+              {"size": "L", "quantity": 7},
+              {"size": "S", "quantity": 8},
+              {"size": "XL", "quantity": 3},
+              {"size": "XXL", "quantity": 5},
+              {"size": "XS", "quantity": 1}
+            ],
+            "Сірий": [
+              {"size": "M", "quantity": 34},
+              {"size": "L", "quantity": 26},
+              {"size": "XL", "quantity": 13},
+              {"size": "S", "quantity": 11},
+              {"size": "XXL", "quantity": 4},
+              {"size": "XS", "quantity": 8},
+              {"size": "3XL", "quantity": 4}
+            ],
+            "Койот": [
+              {"size": "M", "quantity": 14},
+              {"size": "L", "quantity": 5},
+              {"size": "XL", "quantity": 4},
+              {"size": "S", "quantity": 3},
+              {"size": "XXL", "quantity": 2},
+              {"size": "XS", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Вересень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 229},
+              {"size": "L", "quantity": 191},
+              {"size": "XL", "quantity": 108},
+              {"size": "S", "quantity": 79},
+              {"size": "XXL", "quantity": 58},
+              {"size": "3XL", "quantity": 17},
+              {"size": "XS", "quantity": 6}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 76},
+              {"size": "L", "quantity": 39},
+              {"size": "S", "quantity": 24},
+              {"size": "XL", "quantity": 16},
+              {"size": "XXL", "quantity": 3},
+              {"size": "XS", "quantity": 2},
+              {"size": "3XL", "quantity": 3}
+            ],
+            "Олива": [
+              {"size": "L", "quantity": 40},
+              {"size": "M", "quantity": 26},
+              {"size": "S", "quantity": 15},
+              {"size": "XL", "quantity": 15},
+              {"size": "XXL", "quantity": 8},
+              {"size": "XS", "quantity": 1},
+              {"size": "3XL", "quantity": 5}
+            ],
+            "Ніжно-рожевий": [
+              {"size": "S", "quantity": 16},
+              {"size": "M", "quantity": 14},
+              {"size": "L", "quantity": 12},
+              {"size": "XL", "quantity": 4},
+              {"size": "XS", "quantity": 3},
+              {"size": "XXL", "quantity": 1}
+            ],
+            "Бежевий": [
+              {"size": "L", "quantity": 14},
+              {"size": "M", "quantity": 6},
+              {"size": "XL", "quantity": 3},
+              {"size": "S", "quantity": 1},
+              {"size": "XXL", "quantity": 2}
+            ],
+            "Сірий": [
+              {"size": "M", "quantity": 17},
+              {"size": "L", "quantity": 11},
+              {"size": "S", "quantity": 11},
+              {"size": "XL", "quantity": 7},
+              {"size": "XS", "quantity": 8},
+              {"size": "XXL", "quantity": 1},
+              {"size": "3XL", "quantity": 2}
+            ],
+            "Койот": [
+              {"size": "L", "quantity": 25},
+              {"size": "M", "quantity": 15},
+              {"size": "XL", "quantity": 10},
+              {"size": "XXL", "quantity": 8},
+              {"size": "S", "quantity": 7},
+              {"size": "XS", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Жовтень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 272},
+              {"size": "M", "quantity": 257},
+              {"size": "XL", "quantity": 190},
+              {"size": "S", "quantity": 179},
+              {"size": "XXL", "quantity": 35},
+              {"size": "3XL", "quantity": 16},
+              {"size": "XS", "quantity": 16}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 155},
+              {"size": "L", "quantity": 141},
+              {"size": "S", "quantity": 138},
+              {"size": "XL", "quantity": 103},
+              {"size": "XS", "quantity": 12},
+              {"size": "XXL", "quantity": 2},
+              {"size": "3XL", "quantity": 3}
+            ],
+            "Олива": [
+              {"size": "M", "quantity": 14},
+              {"size": "L", "quantity": 13},
+              {"size": "S", "quantity": 10},
+              {"size": "XL", "quantity": 7},
+              {"size": "XXL", "quantity": 3}
+            ],
+            "Койот": [
+              {"size": "L", "quantity": 16},
+              {"size": "M", "quantity": 13},
+              {"size": "XL", "quantity": 4},
+              {"size": "S", "quantity": 6},
+              {"size": "XXL", "quantity": 3}
+            ],
+            "Бежевий": [
+              {"size": "L", "quantity": 10},
+              {"size": "M", "quantity": 7},
+              {"size": "XL", "quantity": 9},
+              {"size": "S", "quantity": 3},
+              {"size": "XXL", "quantity": 2},
+              {"size": "3XL", "quantity": 5}
+            ],
+            "Сірий": [
+              {"size": "L", "quantity": 11},
+              {"size": "M", "quantity": 4},
+              {"size": "S", "quantity": 6},
+              {"size": "XL", "quantity": 1}
+            ],
+            "Ніжно-рожевий": [
+              {"size": "S", "quantity": 6},
+              {"size": "M", "quantity": 5},
+              {"size": "L", "quantity": 5},
+              {"size": "XL", "quantity": 4},
+              {"size": "XS", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Листопад",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 207},
+              {"size": "L", "quantity": 138},
+              {"size": "XL", "quantity": 117},
+              {"size": "S", "quantity": 37},
+              {"size": "XXL", "quantity": 28},
+              {"size": "3XL", "quantity": 16},
+              {"size": "XS", "quantity": 6}
+            ],
+            "Сірий": [
+              {"size": "M", "quantity": 33},
+              {"size": "L", "quantity": 15},
+              {"size": "S", "quantity": 13},
+              {"size": "XL", "quantity": 9},
+              {"size": "XS", "quantity": 1},
+              {"size": "XXL", "quantity": 1},
+              {"size": "3XL", "quantity": 2}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 33},
+              {"size": "L", "quantity": 16},
+              {"size": "XL", "quantity": 6},
+              {"size": "S", "quantity": 5},
+              {"size": "XXL", "quantity": 3},
+              {"size": "XS", "quantity": 3}
+            ],
+            "Олива": [
+              {"size": "XL", "quantity": 12},
+              {"size": "L", "quantity": 9},
+              {"size": "M", "quantity": 5},
+              {"size": "S", "quantity": 3},
+              {"size": "XS", "quantity": 3}
+            ],
+            "Койот": [
+              {"size": "L", "quantity": 10},
+              {"size": "XL", "quantity": 10},
+              {"size": "M", "quantity": 8},
+              {"size": "S", "quantity": 5},
+              {"size": "XXL", "quantity": 1}
+            ],
+            "Ніжно-рожевий": [
+              {"size": "M", "quantity": 8},
+              {"size": "S", "quantity": 4},
+              {"size": "XS", "quantity": 3},
+              {"size": "L", "quantity": 1},
+              {"size": "XL", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Грудень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 172},
+              {"size": "L", "quantity": 132},
+              {"size": "XL", "quantity": 86},
+              {"size": "S", "quantity": 48},
+              {"size": "XXL", "quantity": 34},
+              {"size": "XS", "quantity": 24},
+              {"size": "3XL", "quantity": 7}
+            ],
+            "Білий": [
+              {"size": "M", "quantity": 27},
+              {"size": "L", "quantity": 21},
+              {"size": "S", "quantity": 16},
+              {"size": "XL", "quantity": 10},
+              {"size": "XXL", "quantity": 1},
+              {"size": "XS", "quantity": 1}
+            ],
+            "Олива": [
+              {"size": "M", "quantity": 13},
+              {"size": "L", "quantity": 12},
+              {"size": "XL", "quantity": 9},
+              {"size": "S", "quantity": 5},
+              {"size": "XXL", "quantity": 2},
+              {"size": "XS", "quantity": 3},
+              {"size": "3XL", "quantity": 3}
+            ],
+            "Ніжно-рожевий": [
+              {"size": "S", "quantity": 12},
+              {"size": "M", "quantity": 7},
+              {"size": "L", "quantity": 5},
+              {"size": "XS", "quantity": 5},
+              {"size": "XL", "quantity": 2},
+              {"size": "XXL", "quantity": 1}
+            ],
+            "Сірий": [
+              {"size": "S", "quantity": 6},
+              {"size": "M", "quantity": 4},
+              {"size": "L", "quantity": 3},
+              {"size": "XL", "quantity": 4}
+            ],
+            "Бежевий": [
+              {"size": "L", "quantity": 5},
+              {"size": "M", "quantity": 3},
+              {"size": "S", "quantity": 1}
+            ],
+            "Койот": [
+              {"size": "L", "quantity": 4},
+              {"size": "M", "quantity": 1},
+              {"size": "XL", "quantity": 1}
+            ]
+          }
+        }
+      ]
     }
   ]
 };
