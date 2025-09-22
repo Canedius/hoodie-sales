@@ -1554,6 +1554,90 @@ export const salesData = {
           }
         }
       ]
+    },
+    {
+      "name": "Футболка Relaxed Kufaika",
+      "months": [
+        {
+          "month": "Липень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "XS/S", "quantity": 23},
+              {"size": "M/L", "quantity": 23},
+              {"size": "XL/XXL", "quantity": 3}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 11},
+              {"size": "XS/S", "quantity": 4},
+              {"size": "XL/XXL", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 114},
+              {"size": "XS/S", "quantity": 100},
+              {"size": "XL/XXL", "quantity": 57}
+            ],
+            "Чорний": [
+              {"size": "XS/S", "quantity": 59},
+              {"size": "M/L", "quantity": 51},
+              {"size": "XL/XXL", "quantity": 27}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Футболка Lightness Kufaika",
+      "months": [
+        {
+          "month": "Липень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M", "quantity": 8},
+              {"size": "S", "quantity": 5},
+              {"size": "XS", "quantity": 4},
+              {"size": "L", "quantity": 4}
+            ],
+            "Чорний": [
+              {"size": "M", "quantity": 6},
+              {"size": "S", "quantity": 2},
+              {"size": "L", "quantity": 2},
+              {"size": "XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2025,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 19},
+              {"size": "L", "quantity": 18},
+              {"size": "XL", "quantity": 15},
+              {"size": "S", "quantity": 10},
+              {"size": "2XL", "quantity": 8},
+              {"size": "XS", "quantity": 6},
+              {"size": "3XL", "quantity": 2}
+            ],
+            "Білий": [
+              {"size": "L", "quantity": 6},
+              {"size": "XL", "quantity": 6},
+              {"size": "M", "quantity": 5},
+              {"size": "S", "quantity": 4},
+              {"size": "2XL", "quantity": 4},
+              {"size": "XS", "quantity": 3},
+              {"size": "3XL", "quantity": 1}
+            ]
+          }
+        }
+      ]
     }
   ]
 };
