@@ -1214,6 +1214,126 @@ export const salesData = {
       "name": "Світшот Легкий Kufaika Unisex",
       "months": [
         {
+          "month": "Березень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 10},
+              {"size": "L", "quantity": 10},
+              {"size": "S", "quantity": 2},
+              {"size": "XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Квітень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 2},
+              {"size": "L", "quantity": 2},
+              {"size": "S", "quantity": 1},
+              {"size": "XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Травень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "S", "quantity": 1},
+              {"size": "M", "quantity": 1},
+              {"size": "L", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Червень",
+          "year": 2024,
+          "colors": {
+            "Чорний": []
+          }
+        },
+        {
+          "month": "Липень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 8},
+              {"size": "XL", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 3},
+              {"size": "L", "quantity": 3},
+              {"size": "XL", "quantity": 3},
+              {"size": "S", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Вересень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 10},
+              {"size": "S", "quantity": 6},
+              {"size": "L", "quantity": 4},
+              {"size": "XL", "quantity": 2},
+              {"size": "XXL", "quantity": 1},
+              {"size": "3XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Жовтень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 13},
+              {"size": "S", "quantity": 7},
+              {"size": "L", "quantity": 6},
+              {"size": "XS", "quantity": 4},
+              {"size": "XL", "quantity": 2},
+              {"size": "XXL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Листопад",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 14},
+              {"size": "S", "quantity": 10},
+              {"size": "L", "quantity": 3},
+              {"size": "XXL", "quantity": 4},
+              {"size": "XL", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Грудень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 15},
+              {"size": "S", "quantity": 12},
+              {"size": "L", "quantity": 5},
+              {"size": "XS", "quantity": 3},
+              {"size": "XL", "quantity": 2},
+              {"size": "XXL", "quantity": 1},
+              {"size": "3XL", "quantity": 1}
+            ]
+          }
+        },
+        {
           "month": "Січень",
           "year": 2025,
           "colors": {
@@ -1330,6 +1450,129 @@ export const salesData = {
               {"size": "XS", "quantity": 2},
               {"size": "XXL", "quantity": 2},
               {"size": "3XL", "quantity": 1}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Світшот Утеплений Kufaika Unisex",
+      "months": [
+        {
+          "month": "Березень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Квітень",
+          "year": 2024,
+          "colors": {
+            "Чорний": []
+          }
+        },
+        {
+          "month": "Травень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "S", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Червень",
+          "year": 2024,
+          "colors": {
+            "Чорний": []
+          }
+        },
+        {
+          "month": "Липень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "XL", "quantity": 5},
+              {"size": "L", "quantity": 4}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Вересень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 26},
+              {"size": "M", "quantity": 24},
+              {"size": "S", "quantity": 17},
+              {"size": "XL", "quantity": 5},
+              {"size": "XS", "quantity": 2},
+              {"size": "XXL", "quantity": 1},
+              {"size": "3XL", "quantity": 1}
+            ],
+            "Білий": [
+              {"size": "XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Жовтень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 45},
+              {"size": "L", "quantity": 41},
+              {"size": "S", "quantity": 15},
+              {"size": "XL", "quantity": 8},
+              {"size": "XXL", "quantity": 3},
+              {"size": "XS", "quantity": 2}
+            ],
+            "Інший Колір": [
+              {"size": "Інший розмір", "quantity": 400}
+            ]
+          }
+        },
+        {
+          "month": "Листопад",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 31},
+              {"size": "M", "quantity": 26},
+              {"size": "S", "quantity": 14},
+              {"size": "XL", "quantity": 17},
+              {"size": "XS", "quantity": 4},
+              {"size": "XXL", "quantity": 5},
+              {"size": "3XL", "quantity": 2}
+            ],
+            "Інший Колір": [
+              {"size": "Інший розмір", "quantity": 68}
+            ]
+          }
+        },
+        {
+          "month": "Грудень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "S", "quantity": 46},
+              {"size": "M", "quantity": 39},
+              {"size": "L", "quantity": 33},
+              {"size": "XL", "quantity": 9},
+              {"size": "XXL", "quantity": 6},
+              {"size": "XS", "quantity": 9}
             ]
           }
         }
