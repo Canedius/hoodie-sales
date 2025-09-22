@@ -1557,6 +1557,5 @@ export const salesData = {
     }
   ]
 };
-  ]
-}
+
 
