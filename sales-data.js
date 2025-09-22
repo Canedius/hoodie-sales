@@ -1554,6 +1554,43 @@ export const salesData = {
           }
         }
       ]
+    },
+    {
+      "name": "Футболка Relaxed Kufaika",
+      "months": [
+        {
+          "month": "Липень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "XS/S", "quantity": 23},
+              {"size": "M/L", "quantity": 23},
+              {"size": "XL/XXL", "quantity": 3}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 11},
+              {"size": "XS/S", "quantity": 4},
+              {"size": "XL/XXL", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 114},
+              {"size": "XS/S", "quantity": 100},
+              {"size": "XL/XXL", "quantity": 57}
+            ],
+            "Чорний": [
+              {"size": "XS/S", "quantity": 59},
+              {"size": "M/L", "quantity": 51},
+              {"size": "XL/XXL", "quantity": 27}
+            ]
+          }
+        }
+      ]
     }
   ]
 };
