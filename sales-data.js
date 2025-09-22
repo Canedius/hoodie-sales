@@ -932,6 +932,178 @@ export const salesData = {
       "name": "Худі Легкий Kufaika Unisex",
       "months": [
         {
+          "month": "Січень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 9},
+              {"size": "M", "quantity": 7},
+              {"size": "XL", "quantity": 3},
+              {"size": "S", "quantity": 2},
+              {"size": "XXL", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Лютий",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 11},
+              {"size": "S", "quantity": 5},
+              {"size": "L", "quantity": 5},
+              {"size": "XL", "quantity": 2},
+              {"size": "XXL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Березень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 35},
+              {"size": "M", "quantity": 27},
+              {"size": "XL", "quantity": 11},
+              {"size": "S", "quantity": 9},
+              {"size": "XXL", "quantity": 6},
+              {"size": "XS", "quantity": 2},
+              {"size": "3XL", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Квітень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 61},
+              {"size": "L", "quantity": 50},
+              {"size": "XL", "quantity": 32},
+              {"size": "S", "quantity": 24},
+              {"size": "XXL", "quantity": 9},
+              {"size": "3XL", "quantity": 8},
+              {"size": "XS", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Травень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 40},
+              {"size": "L", "quantity": 18},
+              {"size": "XL", "quantity": 8},
+              {"size": "S", "quantity": 5},
+              {"size": "XXL", "quantity": 5},
+              {"size": "XS", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Червень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 32},
+              {"size": "S", "quantity": 12},
+              {"size": "L", "quantity": 12},
+              {"size": "XL", "quantity": 5},
+              {"size": "XS", "quantity": 4},
+              {"size": "XXL", "quantity": 3},
+              {"size": "3XL", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Липень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 19},
+              {"size": "M", "quantity": 9},
+              {"size": "XL", "quantity": 7},
+              {"size": "XXL", "quantity": 5},
+              {"size": "S", "quantity": 3},
+              {"size": "3XL", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "L", "quantity": 43},
+              {"size": "M", "quantity": 39},
+              {"size": "S", "quantity": 15},
+              {"size": "XL", "quantity": 14},
+              {"size": "XXL", "quantity": 3},
+              {"size": "3XL", "quantity": 3},
+              {"size": "XS", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Вересень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 105},
+              {"size": "L", "quantity": 67},
+              {"size": "S", "quantity": 34},
+              {"size": "XL", "quantity": 30},
+              {"size": "XXL", "quantity": 16},
+              {"size": "3XL", "quantity": 10},
+              {"size": "XS", "quantity": 5}
+            ]
+          }
+        },
+        {
+          "month": "Жовтень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 31},
+              {"size": "L", "quantity": 21},
+              {"size": "S", "quantity": 13},
+              {"size": "XL", "quantity": 11},
+              {"size": "XXL", "quantity": 10},
+              {"size": "3XL", "quantity": 3},
+              {"size": "XS", "quantity": 1}
+            ]
+          }
+        },
+        {
+          "month": "Листопад",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 18},
+              {"size": "L", "quantity": 17},
+              {"size": "S", "quantity": 12},
+              {"size": "XL", "quantity": 11},
+              {"size": "XXL", "quantity": 3},
+              {"size": "XS", "quantity": 2}
+            ]
+          }
+        },
+        {
+          "month": "Грудень",
+          "year": 2024,
+          "colors": {
+            "Чорний": [
+              {"size": "M", "quantity": 13},
+              {"size": "XL", "quantity": 7},
+              {"size": "S", "quantity": 6},
+              {"size": "L", "quantity": 5},
+              {"size": "3XL", "quantity": 3},
+              {"size": "XXL", "quantity": 1}
+            ]
+          }
+        },
+        {
           "month": "Лютий",
           "year": 2025,
           "colors": {
