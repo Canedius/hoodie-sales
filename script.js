@@ -2,7 +2,7 @@ import { salesData } from './sales-data.js';
 
 let salesChart, dailyDemandChart;
 // Define preferred size order for consistent display
-const sizeOrder = ['XS', 'XS/S', 'S', 'M', 'M/L', 'L', 'XL', 'XL/XXL', 'XXL', '3XL'];
+const sizeOrder = ['XS', 'XS/S', 'S', 'M', 'M/L', 'L', 'XL', 'XL/XXL', '2XL', 'XXL', '3XL'];
 // Function to assign colors
 function getColor(name) {
     const colorMap = {
@@ -177,59 +177,81 @@ function getProductColors(productData) {
 // Function to update year dropdown
 function updateYearSelect(productData) {
     const yearSelect = document.getElementById('yearSelect');
+    const previousValue = yearSelect.value;
     yearSelect.innerHTML = '';
-    const years = new Set();
-    productData.months.forEach(month => years.add(month.year));
-    Array.from(years).sort().forEach(year => {
+    const years = Array.from(new Set(productData.months.map(month => month.year))).sort((a, b) => a - b);
+    years.forEach(year => {
         const option = document.createElement('option');
         option.value = year;
         option.textContent = year;
         yearSelect.appendChild(option);
     });
-    if (years.size === 0) {
+    if (years.length === 0) {
         yearSelect.innerHTML = '<option value="">Немає років</option>';
+        return;
     }
+    const fallbackYear = String(years[0]);
+    const selectedYear = years.map(String).includes(previousValue) ? previousValue : fallbackYear;
+    yearSelect.value = selectedYear;
 }
 // Function to update month dropdown
 function updateMonthSelect(productData) {
-    const yearSelect = document.getElementById('yearSelect').value;
     const monthSelect = document.getElementById('monthSelect');
+    const previousValue = monthSelect.value;
+    const yearSelectValue = parseInt(document.getElementById('yearSelect').value, 10);
     monthSelect.innerHTML = '';
-    const months = new Set();
-    productData.months
-        .filter(month => month.year === parseInt(yearSelect))
-        .forEach(month => months.add(month.month));
-    Array.from(months).forEach(month => {
+    if (Number.isNaN(yearSelectValue)) {
+        monthSelect.innerHTML = '<option value="">Немає місяців</option>';
+        return;
+    }
+    const months = Array.from(new Set(
+        productData.months
+            .filter(month => month.year === yearSelectValue)
+            .map(month => month.month)
+    )).sort((a, b) => getMonthIndex(a) - getMonthIndex(b));
+    months.forEach(month => {
         const option = document.createElement('option');
         option.value = month;
         option.textContent = month;
         monthSelect.appendChild(option);
     });
-    if (months.size === 0) {
+    if (months.length === 0) {
         monthSelect.innerHTML = '<option value="">Немає місяців</option>';
+        return;
     }
+    const fallbackMonth = months[0];
+    const selectedMonth = months.includes(previousValue) ? previousValue : fallbackMonth;
+    monthSelect.value = selectedMonth;
 }
 // Function to update color dropdown
 function updateColorSelect(productData) {
-    const yearSelect = document.getElementById('yearSelect').value;
-    const monthSelect = document.getElementById('monthSelect').value;
     const colorSelect = document.getElementById('colorSelect');
+    const previousValue = colorSelect.value;
+    const yearSelectValue = parseInt(document.getElementById('yearSelect').value, 10);
+    const monthSelectValue = document.getElementById('monthSelect').value;
     colorSelect.innerHTML = '';
-    const colors = new Set();
-    productData.months
-        .filter(month => month.year === parseInt(yearSelect) && month.month === monthSelect)
-        .forEach(month => {
-            Object.keys(month.colors).forEach(color => colors.add(color));
-        });
-    Array.from(colors).forEach(color => {
+    if (Number.isNaN(yearSelectValue) || !monthSelectValue) {
+        colorSelect.innerHTML = '<option value="">Немає кольорів</option>';
+        return;
+    }
+    const colors = Array.from(new Set(
+        productData.months
+            .filter(month => month.year === yearSelectValue && month.month === monthSelectValue)
+            .flatMap(month => Object.keys(month.colors))
+    )).sort((a, b) => a.localeCompare(b, 'uk'));
+    colors.forEach(color => {
         const option = document.createElement('option');
         option.value = color;
         option.textContent = color;
         colorSelect.appendChild(option);
     });
-    if (colors.size === 0) {
+    if (colors.length === 0) {
         colorSelect.innerHTML = '<option value="">Немає кольорів</option>';
+        return;
     }
+    const fallbackColor = colors[0];
+    const selectedColor = colors.includes(previousValue) ? previousValue : fallbackColor;
+    colorSelect.value = selectedColor;
 }
 // Function to update product dropdown
 function updateProductSelect() {
