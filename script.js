@@ -2,7 +2,7 @@ import { salesData } from './sales-data.js';
 
 let salesChart, dailyDemandChart;
 // Define preferred size order for consistent display
-const sizeOrder = ['XS', 'XS/S', 'S', 'M', 'M/L', 'L', 'XL', 'XL/XXL', 'XXL', '3XL'];
+const sizeOrder = ['XS', 'XS/S', 'S', 'M', 'M/L', 'L', 'XL', 'XL/XXL', '2XL', 'XXL', '3XL'];
 // Function to assign colors
 function getColor(name) {
     const colorMap = {
@@ -65,6 +65,75 @@ function getMonthIndex(monthName) {
 function getDaysInMonth(month, year) {
     return new Date(year, getMonthIndex(month) + 1, 0).getDate();
 }
+
+function deduplicateProducts(products) {
+    const productMap = new Map();
+    products.forEach(product => {
+        if (!productMap.has(product.name)) {
+            productMap.set(product.name, {
+                name: product.name,
+                months: []
+            });
+        }
+        const mergedProduct = productMap.get(product.name);
+        product.months.forEach(month => {
+            const existingMonth = mergedProduct.months.find(
+                m => m.year === month.year && m.month === month.month
+            );
+            if (!existingMonth) {
+                mergedProduct.months.push({
+                    month: month.month,
+                    year: month.year,
+                    colors: Object.fromEntries(
+                        Object.entries(month.colors).map(([color, sizes]) => [
+                            color,
+                            sizes.map(item => ({ ...item }))
+                        ])
+                    )
+                });
+            } else {
+                Object.entries(month.colors).forEach(([color, sizes]) => {
+                    if (!existingMonth.colors[color]) {
+                        existingMonth.colors[color] = sizes.map(item => ({ ...item }));
+                    } else {
+                        const sizeMap = new Map(
+                            existingMonth.colors[color].map(item => [item.size, item.quantity])
+                        );
+                        sizes.forEach(item => {
+                            sizeMap.set(item.size, (sizeMap.get(item.size) || 0) + item.quantity);
+                        });
+                        existingMonth.colors[color] = Array.from(sizeMap, ([size, quantity]) => ({
+                            size,
+                            quantity
+                        }));
+                    }
+                });
+            }
+        });
+        mergedProduct.months.sort((a, b) => {
+            if (a.year !== b.year) {
+                return a.year - b.year;
+            }
+            return getMonthIndex(a.month) - getMonthIndex(b.month);
+        });
+    });
+    return Array.from(productMap.values());
+}
+
+const normalizedProducts = deduplicateProducts(salesData.products);
+
+function getProductByName(name) {
+    return normalizedProducts.find(product => product.name === name) || null;
+}
+
+function getSelectedYear() {
+    const yearElement = document.getElementById('yearSelect');
+    if (!yearElement) {
+        return null;
+    }
+    const yearValue = parseInt(yearElement.value, 10);
+    return Number.isNaN(yearValue) ? null : yearValue;
+}
 // Function to update total sales display
 function updateTotalSales(datasets) {
     const totalSalesDiv = document.getElementById('totalSales');
@@ -121,12 +190,11 @@ function updateWeeklyDemand(productData) {
     }, 500); // Matches animation duration
 }
 // Function to calculate daily demand data
-function calculateDailyDemandData(productData, chartType) {
-    const months = productData.months;
+function calculateDailyDemandData(productData, months, chartType) {
     const datasets = [];
     const productSizes = getProductSizes(productData);
     if (chartType === 'byColor') {
-        const colors = getProductColors(productData);
+        const colors = getProductColors(productData, months);
         colors.forEach(color => {
             const data = months.map(month => {
                 const daysInMonth = getDaysInMonth(month.month, month.year);
@@ -167,9 +235,10 @@ function calculateDailyDemandData(productData, chartType) {
     return datasets;
 }
 // Function to get colors for a product
-function getProductColors(productData) {
+function getProductColors(productData, monthsSubset = null) {
     const colorSet = new Set();
-    productData.months.forEach(month => {
+    const sourceMonths = monthsSubset || productData.months;
+    sourceMonths.forEach(month => {
         Object.keys(month.colors).forEach(color => colorSet.add(color));
     });
     return Array.from(colorSet);
@@ -177,84 +246,106 @@ function getProductColors(productData) {
 // Function to update year dropdown
 function updateYearSelect(productData) {
     const yearSelect = document.getElementById('yearSelect');
+    const previousValue = yearSelect.value;
     yearSelect.innerHTML = '';
-    const years = new Set();
-    productData.months.forEach(month => years.add(month.year));
-    Array.from(years).sort().forEach(year => {
+    const years = Array.from(new Set(productData.months.map(month => month.year))).sort((a, b) => a - b);
+    years.forEach(year => {
         const option = document.createElement('option');
         option.value = year;
         option.textContent = year;
         yearSelect.appendChild(option);
     });
-    if (years.size === 0) {
+    if (years.length === 0) {
         yearSelect.innerHTML = '<option value="">Немає років</option>';
+        return;
     }
+    const fallbackYear = String(years[0]);
+    const selectedYear = years.map(String).includes(previousValue) ? previousValue : fallbackYear;
+    yearSelect.value = selectedYear;
 }
 // Function to update month dropdown
 function updateMonthSelect(productData) {
-    const yearSelect = document.getElementById('yearSelect').value;
     const monthSelect = document.getElementById('monthSelect');
+    const previousValue = monthSelect.value;
+    const yearSelectValue = parseInt(document.getElementById('yearSelect').value, 10);
     monthSelect.innerHTML = '';
-    const months = new Set();
-    productData.months
-        .filter(month => month.year === parseInt(yearSelect))
-        .forEach(month => months.add(month.month));
-    Array.from(months).forEach(month => {
+    if (Number.isNaN(yearSelectValue)) {
+        monthSelect.innerHTML = '<option value="">Немає місяців</option>';
+        return;
+    }
+    const months = Array.from(new Set(
+        productData.months
+            .filter(month => month.year === yearSelectValue)
+            .map(month => month.month)
+    )).sort((a, b) => getMonthIndex(a) - getMonthIndex(b));
+    months.forEach(month => {
         const option = document.createElement('option');
         option.value = month;
         option.textContent = month;
         monthSelect.appendChild(option);
     });
-    if (months.size === 0) {
+    if (months.length === 0) {
         monthSelect.innerHTML = '<option value="">Немає місяців</option>';
+        return;
     }
+    const fallbackMonth = months[0];
+    const selectedMonth = months.includes(previousValue) ? previousValue : fallbackMonth;
+    monthSelect.value = selectedMonth;
 }
 // Function to update color dropdown
 function updateColorSelect(productData) {
-    const yearSelect = document.getElementById('yearSelect').value;
-    const monthSelect = document.getElementById('monthSelect').value;
     const colorSelect = document.getElementById('colorSelect');
+    const previousValue = colorSelect.value;
+    const yearSelectValue = parseInt(document.getElementById('yearSelect').value, 10);
+    const monthSelectValue = document.getElementById('monthSelect').value;
     colorSelect.innerHTML = '';
-    const colors = new Set();
-    productData.months
-        .filter(month => month.year === parseInt(yearSelect) && month.month === monthSelect)
-        .forEach(month => {
-            Object.keys(month.colors).forEach(color => colors.add(color));
-        });
-    Array.from(colors).forEach(color => {
+    if (Number.isNaN(yearSelectValue) || !monthSelectValue) {
+        colorSelect.innerHTML = '<option value="">Немає кольорів</option>';
+        return;
+    }
+    const colors = Array.from(new Set(
+        productData.months
+            .filter(month => month.year === yearSelectValue && month.month === monthSelectValue)
+            .flatMap(month => Object.keys(month.colors))
+    )).sort((a, b) => a.localeCompare(b, 'uk'));
+    colors.forEach(color => {
         const option = document.createElement('option');
         option.value = color;
         option.textContent = color;
         colorSelect.appendChild(option);
     });
-    if (colors.size === 0) {
+    if (colors.length === 0) {
         colorSelect.innerHTML = '<option value="">Немає кольорів</option>';
+        return;
     }
+    const fallbackColor = colors[0];
+    const selectedColor = colors.includes(previousValue) ? previousValue : fallbackColor;
+    colorSelect.value = selectedColor;
 }
 // Function to update product dropdown
 function updateProductSelect() {
     const productSelect = document.getElementById('productSelect');
     productSelect.innerHTML = '';
-    if (!salesData.products || salesData.products.length === 0) {
+    if (!normalizedProducts || normalizedProducts.length === 0) {
         productSelect.innerHTML = '<option value="">Немає продуктів</option>';
         document.getElementById('totalSales').innerHTML = '<p style="color: red;">Помилка: Немає продуктів у даних</p>';
-        console.error('salesData.products is empty or undefined');
+        console.error('normalizedProducts is empty or undefined');
         return;
     }
-    salesData.products.forEach(product => {
+    normalizedProducts.forEach(product => {
         const option = document.createElement('option');
         option.value = product.name;
         option.textContent = product.name;
         productSelect.appendChild(option);
     });
-    console.log('Product select updated with', salesData.products.length, 'products');
+    console.log('Product select updated with', normalizedProducts.length, 'products');
 }
 // Function to update chart type dropdown
 function updateChartTypes() {
     const productSelect = document.getElementById('productSelect').value;
     const chartTypeSelect = document.getElementById('chartType');
     chartTypeSelect.innerHTML = '<option value="byColor">Продажі та попит за кольорами</option>';
-    const productData = salesData.products.find(p => p.name === productSelect);
+    const productData = getProductByName(productSelect);
     if (!productData) {
         console.error('No product data for', productSelect);
         return;
@@ -274,7 +365,7 @@ function updateChart() {
     const chartType = document.getElementById('chartType').value;
     const salesChartTitle = document.getElementById('salesChartTitle');
     const dailyDemandChartTitle = document.getElementById('dailyDemandChartTitle');
-    const productData = salesData.products.find(p => p.name === productSelect);
+    const productData = getProductByName(productSelect);
     if (!productData) {
         salesChartTitle.textContent = 'Дані недоступні';
         dailyDemandChartTitle.textContent = 'Дані недоступні';
@@ -283,18 +374,31 @@ function updateChart() {
         console.error('Product not found:', productSelect);
         return;
     }
-    // Update weekly demand dropdowns
-    updateYearSelect(productData);
-    updateMonthSelect(productData);
-    updateColorSelect(productData);
-    updateWeeklyDemand(productData);
-    const colors = getProductColors(productData);
-    const months = productData.months.map(m => `${m.month} ${m.year}`);
+    const selectedYear = getSelectedYear();
+    const filteredMonths = selectedYear === null
+        ? productData.months
+        : productData.months.filter(month => month.year === selectedYear);
+    if (filteredMonths.length === 0) {
+        salesChartTitle.textContent = `Немає даних для ${productSelect} у ${selectedYear} році`;
+        dailyDemandChartTitle.textContent = `Немає даних для ${productSelect} у ${selectedYear} році`;
+        if (salesChart) {
+            salesChart.destroy();
+            salesChart = null;
+        }
+        if (dailyDemandChart) {
+            dailyDemandChart.destroy();
+            dailyDemandChart = null;
+        }
+        document.getElementById('totalSales').innerHTML = '<p>Немає даних для вибраного року</p>';
+        return;
+    }
+    const colors = getProductColors(productData, filteredMonths);
+    const months = filteredMonths.map(m => `${m.month} ${m.year}`);
     const productSizes = getProductSizes(productData);
     let salesDatasets = [];
     if (chartType === 'byColor') {
         salesDatasets = colors.map(color => {
-            const data = productData.months.map(month => {
+            const data = filteredMonths.map(month => {
                 return month.colors[color] ? month.colors[color].reduce((sum, item) => sum + item.quantity, 0) : 0;
             });
             return {
@@ -307,11 +411,12 @@ function updateChart() {
                 categoryPercentage: 0.9
             };
         });
-        salesChartTitle.textContent = `Продажі за кольором для ${productSelect} по місяцях`;
-        dailyDemandChartTitle.textContent = `Щоденний попит за кольором для ${productSelect} по місяцях`;
+        const titleSuffix = selectedYear ? ` (${selectedYear} рік)` : '';
+        salesChartTitle.textContent = `Продажі за кольорами для ${productSelect}${titleSuffix}`;
+        dailyDemandChartTitle.textContent = `Щоденний попит за кольорами для ${productSelect}${titleSuffix}`;
     } else {
         salesDatasets = productSizes.map(size => {
-            const data = productData.months.map(month => {
+            const data = filteredMonths.map(month => {
                 const colorData = month.colors[chartType];
                 const item = colorData ? colorData.find(i => i.size === size) : null;
                 return item ? item.quantity : 0;
@@ -326,8 +431,9 @@ function updateChart() {
                 categoryPercentage: 0.9
             };
         });
-        salesChartTitle.textContent = `Продажі за розмірами для кольору ${chartType} (${productSelect}) по місяцях`;
-        dailyDemandChartTitle.textContent = `Щоденний попит за розмірами для кольору ${chartType} (${productSelect}) по місяцях`;
+        const titleSuffix = selectedYear ? ` (${selectedYear} рік)` : '';
+        salesChartTitle.textContent = `Продажі за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
+        dailyDemandChartTitle.textContent = `Щоденний попит за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
     }
     // Update total sales
     updateTotalSales(salesDatasets);
@@ -378,7 +484,7 @@ function updateChart() {
         }
     });
     // Update daily demand chart
-    const dailyDemandDatasets = calculateDailyDemandData(productData, chartType);
+    const dailyDemandDatasets = calculateDailyDemandData(productData, filteredMonths, chartType);
     if (dailyDemandChart) {
         dailyDemandChart.destroy();
     }
@@ -437,7 +543,7 @@ function init() {
     }
     updateProductSelect();
     updateChartTypes();
-    const productData = salesData.products[0]; // Ініціалізуємо першим продуктом
+    const productData = normalizedProducts[0]; // Ініціалізуємо першим продуктом
     if (productData) {
         updateYearSelect(productData);
         updateMonthSelect(productData);
@@ -447,7 +553,11 @@ function init() {
     updateChart();
     document.getElementById('productSelect').addEventListener('change', () => {
         updateChartTypes();
-        const productData = salesData.products.find(p => p.name === document.getElementById('productSelect').value);
+        const productData = getProductByName(document.getElementById('productSelect').value);
+        if (!productData) {
+            console.error('Product not found for selection change');
+            return;
+        }
         updateYearSelect(productData);
         updateMonthSelect(productData);
         updateColorSelect(productData);
@@ -458,19 +568,33 @@ function init() {
         updateChart();
     });
     document.getElementById('yearSelect').addEventListener('change', () => {
-        const productData = salesData.products.find(p => p.name === document.getElementById('productSelect').value);
+        const productData = getProductByName(document.getElementById('productSelect').value);
+        if (!productData) {
+            console.error('Product not found when year changed');
+            return;
+        }
         updateMonthSelect(productData);
         updateColorSelect(productData);
         updateWeeklyDemand(productData);
+        updateChart();
     });
     document.getElementById('monthSelect').addEventListener('change', () => {
-        const productData = salesData.products.find(p => p.name === document.getElementById('productSelect').value);
+        const productData = getProductByName(document.getElementById('productSelect').value);
+        if (!productData) {
+            console.error('Product not found when month changed');
+            return;
+        }
         updateColorSelect(productData);
         updateWeeklyDemand(productData);
     });
     document.getElementById('colorSelect').addEventListener('change', () => {
-        const productData = salesData.products.find(p => p.name === document.getElementById('productSelect').value);
+        const productData = getProductByName(document.getElementById('productSelect').value);
+        if (!productData) {
+            console.error('Product not found when color changed');
+            return;
+        }
         updateWeeklyDemand(productData);
+        updateChart();
     });
 }
 // Run after DOM is loaded
