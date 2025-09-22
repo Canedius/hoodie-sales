@@ -1,8 +1,8 @@
 import { salesData } from './sales-data.js';
 
 let salesChart, dailyDemandChart;
-// Define sizes
-const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
+// Define preferred size order for consistent display
+const sizeOrder = ['XS', 'XS/S', 'S', 'M', 'M/L', 'L', 'XL', 'XL/XXL', 'XXL', '3XL'];
 // Function to assign colors
 function getColor(name) {
     const colorMap = {
@@ -22,9 +22,32 @@ function getColor(name) {
         'L': '#FFD700',
         'XL': '#6A5ACD',
         'XXL': '#FF4500',
-        '3XL': '#9ACD32'
+        '3XL': '#9ACD32',
+        'M/L': '#20B2AA',
+        'XL/XXL': '#DA70D6',
+        'XS/S': '#FF8C00'
     };
     return colorMap[name] || '#000000';
+}
+// Function to extract and sort sizes for a product
+function getProductSizes(productData) {
+    const sizeSet = new Set();
+    productData.months.forEach(month => {
+        Object.values(month.colors).forEach(colorData => {
+            colorData.forEach(item => sizeSet.add(item.size));
+        });
+    });
+    const sizes = Array.from(sizeSet);
+    return sizes.sort((a, b) => {
+        const indexA = sizeOrder.indexOf(a);
+        const indexB = sizeOrder.indexOf(b);
+        if (indexA === -1 && indexB === -1) {
+            return a.localeCompare(b, 'uk');
+        }
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+    });
 }
 // Function to calculate total sales for a dataset
 function calculateTotalSales(data) {
@@ -69,12 +92,13 @@ function updateWeeklyDemand(productData) {
         return;
     }
     const colorHex = getColor(colorSelect);
+    const productSizes = getProductSizes(productData);
     const daysInMonth = getDaysInMonth(month.month, month.year);
     const weeksInMonth = daysInMonth / 7;
     let totalWeekly = 0; // Для пункту "Усього"
     html += `<h4><span class="color-square" style="background-color: ${colorHex};"></span>${colorSelect}</h4>`;
     html += '<ul class="fade-in">';
-    sizes.forEach(size => {
+    productSizes.forEach(size => {
         const colorData = month.colors[colorSelect];
         const item = colorData ? colorData.find(i => i.size === size) : null;
         const total = item ? item.quantity : 0;
@@ -100,6 +124,7 @@ function updateWeeklyDemand(productData) {
 function calculateDailyDemandData(productData, chartType) {
     const months = productData.months;
     const datasets = [];
+    const productSizes = getProductSizes(productData);
     if (chartType === 'byColor') {
         const colors = getProductColors(productData);
         colors.forEach(color => {
@@ -120,7 +145,7 @@ function calculateDailyDemandData(productData, chartType) {
         });
     } else {
         const color = chartType;
-        sizes.forEach(size => {
+        productSizes.forEach(size => {
             const data = months.map(month => {
                 const daysInMonth = getDaysInMonth(month.month, month.year);
                 const colorData = month.colors[color];
@@ -265,6 +290,7 @@ function updateChart() {
     updateWeeklyDemand(productData);
     const colors = getProductColors(productData);
     const months = productData.months.map(m => `${m.month} ${m.year}`);
+    const productSizes = getProductSizes(productData);
     let salesDatasets = [];
     if (chartType === 'byColor') {
         salesDatasets = colors.map(color => {
@@ -284,7 +310,7 @@ function updateChart() {
         salesChartTitle.textContent = `Продажі за кольором для ${productSelect} по місяцях`;
         dailyDemandChartTitle.textContent = `Щоденний попит за кольором для ${productSelect} по місяцях`;
     } else {
-        salesDatasets = sizes.map(size => {
+        salesDatasets = productSizes.map(size => {
             const data = productData.months.map(month => {
                 const colorData = month.colors[chartType];
                 const item = colorData ? colorData.find(i => i.size === size) : null;

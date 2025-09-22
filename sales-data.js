@@ -1420,6 +1420,144 @@ export const salesData = {
           }
         }
       ]
+    },
+    // Дані продажів для футболки OVERSIZE Kufaika
+    {
+      "name": "Футболка OVERSIZE Kufaika",
+      "months": [
+        {
+          "month": "Січень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 55},
+              {"size": "XL/XXL", "quantity": 49},
+              {"size": "XS/S", "quantity": 19}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 34},
+              {"size": "XL/XXL", "quantity": 23},
+              {"size": "XS/S", "quantity": 15}
+            ]
+          }
+        },
+        {
+          "month": "Лютий",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 54},
+              {"size": "XL/XXL", "quantity": 5},
+              {"size": "XS/S", "quantity": 3}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 38},
+              {"size": "XL/XXL", "quantity": 16},
+              {"size": "XS/S", "quantity": 3}
+            ]
+          }
+        },
+        {
+          "month": "Березень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 57},
+              {"size": "XL/XXL", "quantity": 11},
+              {"size": "XS/S", "quantity": 22}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 76},
+              {"size": "XL/XXL", "quantity": 26},
+              {"size": "XS/S", "quantity": 28}
+            ]
+          }
+        },
+        {
+          "month": "Квітень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 61},
+              {"size": "XL/XXL", "quantity": 7},
+              {"size": "XS/S", "quantity": 17}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 171},
+              {"size": "XL/XXL", "quantity": 76},
+              {"size": "XS/S", "quantity": 68}
+            ]
+          }
+        },
+        {
+          "month": "Травень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 88},
+              {"size": "XL/XXL", "quantity": 39},
+              {"size": "XS/S", "quantity": 52}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 83},
+              {"size": "XL/XXL", "quantity": 54},
+              {"size": "XS/S", "quantity": 38}
+            ]
+          }
+        },
+        {
+          "month": "Червень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 88},
+              {"size": "XL/XXL", "quantity": 32},
+              {"size": "XS/S", "quantity": 50}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 86},
+              {"size": "XL/XXL", "quantity": 28},
+              {"size": "XS/S", "quantity": 30}
+            ]
+          }
+        },
+        {
+          "month": "Липень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 57},
+              {"size": "XL/XXL", "quantity": 29},
+              {"size": "XS/S", "quantity": 33}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 156},
+              {"size": "XL/XXL", "quantity": 82},
+              {"size": "XS/S", "quantity": 58}
+            ]
+          }
+        },
+        {
+          "month": "Серпень",
+          "year": 2025,
+          "colors": {
+            "Білий": [
+              {"size": "M/L", "quantity": 53},
+              {"size": "XL/XXL", "quantity": 28},
+              {"size": "XS/S", "quantity": 38}
+            ],
+            "Чорний": [
+              {"size": "M/L", "quantity": 171},
+              {"size": "XL/XXL", "quantity": 93},
+              {"size": "XS/S", "quantity": 64}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+};
+=======
     }
   ]
 }
