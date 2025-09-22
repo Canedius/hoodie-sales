@@ -117,6 +117,18 @@ select:focus {
     color: #6A5ACD;
     flex: 0 0 auto;
 }
+.total-sales .diff {
+    font-weight: bold;
+}
+.total-sales .diff.positive {
+    color: #2e7d32;
+}
+.total-sales .diff.negative {
+    color: #c62828;
+}
+.total-sales .diff.neutral {
+    color: #6c757d;
+}
 #weeklyDemandList ul.fade-in {
     animation: fadeIn 0.5s ease-in;
 }
