@@ -65,6 +65,15 @@ function getMonthIndex(monthName) {
 function getDaysInMonth(month, year) {
     return new Date(year, getMonthIndex(month) + 1, 0).getDate();
 }
+
+function getSelectedYear() {
+    const yearElement = document.getElementById('yearSelect');
+    if (!yearElement) {
+        return null;
+    }
+    const yearValue = parseInt(yearElement.value, 10);
+    return Number.isNaN(yearValue) ? null : yearValue;
+}
 // Function to update total sales display
 function updateTotalSales(datasets) {
     const totalSalesDiv = document.getElementById('totalSales');
@@ -121,12 +130,11 @@ function updateWeeklyDemand(productData) {
     }, 500); // Matches animation duration
 }
 // Function to calculate daily demand data
-function calculateDailyDemandData(productData, chartType) {
-    const months = productData.months;
+function calculateDailyDemandData(productData, months, chartType) {
     const datasets = [];
     const productSizes = getProductSizes(productData);
     if (chartType === 'byColor') {
-        const colors = getProductColors(productData);
+        const colors = getProductColors(productData, months);
         colors.forEach(color => {
             const data = months.map(month => {
                 const daysInMonth = getDaysInMonth(month.month, month.year);
@@ -167,9 +175,10 @@ function calculateDailyDemandData(productData, chartType) {
     return datasets;
 }
 // Function to get colors for a product
-function getProductColors(productData) {
+function getProductColors(productData, monthsSubset = null) {
     const colorSet = new Set();
-    productData.months.forEach(month => {
+    const sourceMonths = monthsSubset || productData.months;
+    sourceMonths.forEach(month => {
         Object.keys(month.colors).forEach(color => colorSet.add(color));
     });
     return Array.from(colorSet);
@@ -305,18 +314,31 @@ function updateChart() {
         console.error('Product not found:', productSelect);
         return;
     }
-    // Update weekly demand dropdowns
-    updateYearSelect(productData);
-    updateMonthSelect(productData);
-    updateColorSelect(productData);
-    updateWeeklyDemand(productData);
-    const colors = getProductColors(productData);
-    const months = productData.months.map(m => `${m.month} ${m.year}`);
+    const selectedYear = getSelectedYear();
+    const filteredMonths = selectedYear === null
+        ? productData.months
+        : productData.months.filter(month => month.year === selectedYear);
+    if (filteredMonths.length === 0) {
+        salesChartTitle.textContent = `Немає даних для ${productSelect} у ${selectedYear} році`;
+        dailyDemandChartTitle.textContent = `Немає даних для ${productSelect} у ${selectedYear} році`;
+        if (salesChart) {
+            salesChart.destroy();
+            salesChart = null;
+        }
+        if (dailyDemandChart) {
+            dailyDemandChart.destroy();
+            dailyDemandChart = null;
+        }
+        document.getElementById('totalSales').innerHTML = '<p>Немає даних для вибраного року</p>';
+        return;
+    }
+    const colors = getProductColors(productData, filteredMonths);
+    const months = filteredMonths.map(m => `${m.month} ${m.year}`);
     const productSizes = getProductSizes(productData);
     let salesDatasets = [];
     if (chartType === 'byColor') {
         salesDatasets = colors.map(color => {
-            const data = productData.months.map(month => {
+            const data = filteredMonths.map(month => {
                 return month.colors[color] ? month.colors[color].reduce((sum, item) => sum + item.quantity, 0) : 0;
             });
             return {
@@ -329,11 +351,12 @@ function updateChart() {
                 categoryPercentage: 0.9
             };
         });
-        salesChartTitle.textContent = `Продажі за кольором для ${productSelect} по місяцях`;
-        dailyDemandChartTitle.textContent = `Щоденний попит за кольором для ${productSelect} по місяцях`;
+        const titleSuffix = selectedYear ? ` (${selectedYear} рік)` : '';
+        salesChartTitle.textContent = `Продажі за кольорами для ${productSelect}${titleSuffix}`;
+        dailyDemandChartTitle.textContent = `Щоденний попит за кольорами для ${productSelect}${titleSuffix}`;
     } else {
         salesDatasets = productSizes.map(size => {
-            const data = productData.months.map(month => {
+            const data = filteredMonths.map(month => {
                 const colorData = month.colors[chartType];
                 const item = colorData ? colorData.find(i => i.size === size) : null;
                 return item ? item.quantity : 0;
@@ -348,8 +371,9 @@ function updateChart() {
                 categoryPercentage: 0.9
             };
         });
-        salesChartTitle.textContent = `Продажі за розмірами для кольору ${chartType} (${productSelect}) по місяцях`;
-        dailyDemandChartTitle.textContent = `Щоденний попит за розмірами для кольору ${chartType} (${productSelect}) по місяцях`;
+        const titleSuffix = selectedYear ? ` (${selectedYear} рік)` : '';
+        salesChartTitle.textContent = `Продажі за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
+        dailyDemandChartTitle.textContent = `Щоденний попит за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
     }
     // Update total sales
     updateTotalSales(salesDatasets);
@@ -400,7 +424,7 @@ function updateChart() {
         }
     });
     // Update daily demand chart
-    const dailyDemandDatasets = calculateDailyDemandData(productData, chartType);
+    const dailyDemandDatasets = calculateDailyDemandData(productData, filteredMonths, chartType);
     if (dailyDemandChart) {
         dailyDemandChart.destroy();
     }
@@ -484,6 +508,7 @@ function init() {
         updateMonthSelect(productData);
         updateColorSelect(productData);
         updateWeeklyDemand(productData);
+        updateChart();
     });
     document.getElementById('monthSelect').addEventListener('change', () => {
         const productData = salesData.products.find(p => p.name === document.getElementById('productSelect').value);
