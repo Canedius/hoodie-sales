@@ -172,9 +172,8 @@ function updateTotalSales(productData, filteredMonths, chartType, datasets) {
     let html = '<h3>Загальні суми продажів:</h3><ul>';
     const selectedYear = filteredMonths.length > 0 ? filteredMonths[0].year : null;
     const previousYear = selectedYear !== null ? selectedYear - 1 : null;
-    const monthNames = filteredMonths.map(month => month.month);
     const previousYearMonths = previousYear !== null
-        ? productData.months.filter(month => month.year === previousYear && monthNames.includes(month.month))
+        ? productData.months.filter(month => month.year === previousYear)
         : [];
     const hasPreviousData = previousYearMonths.length > 0;
     datasets.forEach(dataset => {
