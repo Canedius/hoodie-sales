@@ -229,6 +229,13 @@ function updateDailyDemandSummary(productData) {
     const colorHex = getColor(colorSelect);
     const productSizes = getProductSizes(productData);
     const daysInMonth = getDaysInMonth(month.month, month.year);
+    const previousYearForMonth = month.year - 1;
+    const previousMonth = productData.months.find(
+        m => m.year === previousYearForMonth && m.month === month.month
+    ) || null;
+    const previousDaysInMonth = previousMonth ? getDaysInMonth(previousMonth.month, previousMonth.year) : null;
+    let totalDaily = 0;
+    let totalPreviousDaily = 0;
     const previousYear = month.year - 1;
     const previousMonth = productData.months.find(m => m.year === previousYear && m.month === month.month) || null;
     const previousDaysInMonth = previousMonth ? getDaysInMonth(previousMonth.month, previousMonth.year) : null;
@@ -260,6 +267,13 @@ function updateDailyDemandSummary(productData) {
         if (daily > 0) {
             const diffHtml = previousDaily !== null ? formatDelta(daily - previousDaily, 1) : '';
             html += `<li class="fade-in"><span class="label">${size}</span><span class="value">${daily}${diffHtml ? ` ${diffHtml}` : ''}</span></li>`;
+        }
+        totalDaily += daily;
+    });
+    totalDaily = Math.round(totalDaily * 10) / 10;
+    totalPreviousDaily = Math.round(totalPreviousDaily * 10) / 10;
+    const totalDiffHtml = previousMonth && previousDaysInMonth ? formatDelta(totalDaily - totalPreviousDaily, 1) : '';
+    html += `<li class="fade-in"><span class="label">Усього</span><span class="value">${totalDaily}${totalDiffHtml ? ` ${totalDiffHtml}` : ''}</span></li>`;
         }
         totalDaily += daily;
     });
