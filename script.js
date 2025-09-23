@@ -1,6 +1,6 @@
 import { salesData } from './sales-data.js';
 
-let salesChart, dailyDemandChart;
+let salesChart, weeklyDemandChart;
 // Define preferred size order for consistent display
 const sizeOrder = ['XS', 'XS/S', 'S', 'M', 'M/L', 'L', 'XL', 'XL/XXL', '2XL', 'XXL', '3XL'];
 // Function to assign colors
@@ -179,7 +179,7 @@ function updateTotalSales(productData, filteredMonths, chartType, datasets) {
     const hasPreviousData = previousYearMonths.length > 0;
     datasets.forEach(dataset => {
         const total = calculateTotalSales(dataset.data);
-        const label = dataset.label.split(' (Щоденний)')[0];
+        const label = dataset.label.split(' (Щотижневий)')[0];
         const color = getColor(label);
         let previousTotal = 0;
         if (hasPreviousData) {
@@ -208,22 +208,32 @@ function updateTotalSales(productData, filteredMonths, chartType, datasets) {
     html += '</ul>';
     totalSalesDiv.innerHTML = html;
 }
-// Function to update weekly demand text display
-function updateWeeklyDemand(productData) {
-    const weeklyDemandList = document.getElementById('weeklyDemandList');
-    const yearSelect = document.getElementById('yearSelect').value;
+// Function to update daily demand text display
+function updateDailyDemandSummary(productData) {
+    const dailyDemandList = document.getElementById('dailyDemandList');
+    const yearSelect = parseInt(document.getElementById('yearSelect').value, 10);
     const monthSelect = document.getElementById('monthSelect').value;
     const colorSelect = document.getElementById('colorSelect').value;
     let html = '';
-    const month = productData.months.find(m => m.year === parseInt(yearSelect) && m.month === monthSelect);
+    if (Number.isNaN(yearSelect) || !monthSelect || !colorSelect) {
+        html = '<p>Немає даних для вибраного року, місяця або кольору</p>';
+        dailyDemandList.innerHTML = html;
+        return;
+    }
+    const month = productData.months.find(m => m.year === yearSelect && m.month === monthSelect);
     if (!month || !month.colors[colorSelect]) {
         html = '<p>Немає даних для вибраного року, місяця або кольору</p>';
-        weeklyDemandList.innerHTML = html;
+        dailyDemandList.innerHTML = html;
         return;
     }
     const colorHex = getColor(colorSelect);
     const productSizes = getProductSizes(productData);
     const daysInMonth = getDaysInMonth(month.month, month.year);
+    const previousYear = month.year - 1;
+    const previousMonth = productData.months.find(m => m.year === previousYear && m.month === month.month) || null;
+    const previousDaysInMonth = previousMonth ? getDaysInMonth(previousMonth.month, previousMonth.year) : null;
+    let totalDaily = 0;
+    let totalPreviousDaily = 0;
     const weeksInMonth = daysInMonth / 7;
     const previousYear = month.year - 1;
     const previousMonth = productData.months.find(m => m.year === previousYear && m.month === month.month) || null;
@@ -236,6 +246,27 @@ function updateWeeklyDemand(productData) {
         const colorData = month.colors[colorSelect];
         const item = colorData ? colorData.find(i => i.size === size) : null;
         const total = item ? item.quantity : 0;
+        const daily = Math.round((total / daysInMonth) * 10) / 10;
+        let previousDaily = null;
+        if (previousMonth && previousDaysInMonth) {
+            const previousColorData = previousMonth.colors[colorSelect] || [];
+            const previousItem = previousColorData.find(i => i.size === size) || null;
+            const previousTotal = previousItem ? previousItem.quantity : 0;
+            previousDaily = Math.round((previousTotal / previousDaysInMonth) * 10) / 10;
+        }
+        if (previousDaily !== null) {
+            totalPreviousDaily += previousDaily;
+        }
+        if (daily > 0) {
+            const diffHtml = previousDaily !== null ? formatDelta(daily - previousDaily, 1) : '';
+            html += `<li class="fade-in"><span class="label">${size}</span><span class="value">${daily}${diffHtml ? ` ${diffHtml}` : ''}</span></li>`;
+        }
+        totalDaily += daily;
+    });
+    totalDaily = Math.round(totalDaily * 10) / 10;
+    totalPreviousDaily = Math.round(totalPreviousDaily * 10) / 10;
+    const totalDiffHtml = previousMonth && previousDaysInMonth ? formatDelta(totalDaily - totalPreviousDaily, 1) : '';
+    html += `<li class="fade-in"><span class="label">Усього</span><span class="value">${totalDaily}${totalDiffHtml ? ` ${totalDiffHtml}` : ''}</span></li>`;
         const weekly = Math.round(total / weeksInMonth * 10) / 10;
         let previousWeekly = null;
         if (previousMonth && previousWeeksInMonth) {
@@ -258,15 +289,16 @@ function updateWeeklyDemand(productData) {
     const totalDiffHtml = previousMonth && previousWeeksInMonth ? formatDelta(totalWeekly - totalPreviousWeekly, 1) : '';
     html += `<li class="fade-in"><span class="label">Усього</span><span class="value">${totalWeekly}${totalDiffHtml ? ` ${totalDiffHtml}` : ''}</span></li>`;
     html += '</ul>';
-    weeklyDemandList.innerHTML = html;
-    // Remove fade-in class after animation completes
+    dailyDemandList.innerHTML = html;
     setTimeout(() => {
-        const ul = weeklyDemandList.querySelector('ul');
+        const ul = dailyDemandList.querySelector('ul');
         if (ul) ul.classList.remove('fade-in');
-        const lis = weeklyDemandList.querySelectorAll('li');
+        const lis = dailyDemandList.querySelectorAll('li');
         lis.forEach(li => li.classList.remove('fade-in'));
-    }, 500); // Matches animation duration
+    }, 500);
 }
+// Function to calculate weekly demand data
+function calculateWeeklyDemandData(productData, months, chartType) {
 // Function to calculate daily demand data
 function calculateDailyDemandData(productData, months, chartType) {
     const datasets = [];
@@ -276,8 +308,9 @@ function calculateDailyDemandData(productData, months, chartType) {
         colors.forEach(color => {
             const data = months.map(month => {
                 const daysInMonth = getDaysInMonth(month.month, month.year);
+                const weeksInMonth = daysInMonth / 7;
                 const total = month.colors[color] ? month.colors[color].reduce((sum, item) => sum + item.quantity, 0) : 0;
-                return Math.round(total / daysInMonth * 10) / 10;
+                return Math.round((total / weeksInMonth) * 10) / 10;
             });
             datasets.push({
                 label: color,
@@ -294,10 +327,11 @@ function calculateDailyDemandData(productData, months, chartType) {
         productSizes.forEach(size => {
             const data = months.map(month => {
                 const daysInMonth = getDaysInMonth(month.month, month.year);
+                const weeksInMonth = daysInMonth / 7;
                 const colorData = month.colors[color];
                 const item = colorData ? colorData.find(i => i.size === size) : null;
                 const total = item ? item.quantity : 0;
-                return Math.round(total / daysInMonth * 10) / 10;
+                return Math.round((total / weeksInMonth) * 10) / 10;
             });
             datasets.push({
                 label: size,
@@ -442,13 +476,14 @@ function updateChart() {
     const productSelect = document.getElementById('productSelect').value;
     const chartType = document.getElementById('chartType').value;
     const salesChartTitle = document.getElementById('salesChartTitle');
+    const weeklyDemandChartTitle = document.getElementById('weeklyDemandChartTitle');
     const dailyDemandChartTitle = document.getElementById('dailyDemandChartTitle');
     const productData = getProductByName(productSelect);
     if (!productData) {
         salesChartTitle.textContent = 'Дані недоступні';
-        dailyDemandChartTitle.textContent = 'Дані недоступні';
+        weeklyDemandChartTitle.textContent = 'Дані недоступні';
         document.getElementById('totalSales').innerHTML = '<p style="color: red;">Помилка: Вибраний продукт не знайдено</p>';
-        document.getElementById('weeklyDemandList').innerHTML = '';
+        document.getElementById('dailyDemandList').innerHTML = '';
         console.error('Product not found:', productSelect);
         return;
     }
@@ -458,11 +493,18 @@ function updateChart() {
         : productData.months.filter(month => month.year === selectedYear);
     if (filteredMonths.length === 0) {
         salesChartTitle.textContent = `Немає даних для ${productSelect} у ${selectedYear} році`;
+        weeklyDemandChartTitle.textContent = `Немає даних для ${productSelect} у ${selectedYear} році`;
         dailyDemandChartTitle.textContent = `Немає даних для ${productSelect} у ${selectedYear} році`;
         if (salesChart) {
             salesChart.destroy();
             salesChart = null;
         }
+        if (weeklyDemandChart) {
+            weeklyDemandChart.destroy();
+            weeklyDemandChart = null;
+        }
+        document.getElementById('totalSales').innerHTML = '<p>Немає даних для вибраного року</p>';
+        document.getElementById('dailyDemandList').innerHTML = '<p>Немає даних для вибраного року</p>';
         if (dailyDemandChart) {
             dailyDemandChart.destroy();
             dailyDemandChart = null;
@@ -491,6 +533,7 @@ function updateChart() {
         });
         const titleSuffix = selectedYear ? ` (${selectedYear} рік)` : '';
         salesChartTitle.textContent = `Продажі за кольорами для ${productSelect}${titleSuffix}`;
+        weeklyDemandChartTitle.textContent = `Щотижневий попит за кольорами для ${productSelect}${titleSuffix}`;
         dailyDemandChartTitle.textContent = `Щоденний попит за кольорами для ${productSelect}${titleSuffix}`;
     } else {
         salesDatasets = productSizes.map(size => {
@@ -511,6 +554,7 @@ function updateChart() {
         });
         const titleSuffix = selectedYear ? ` (${selectedYear} рік)` : '';
         salesChartTitle.textContent = `Продажі за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
+        weeklyDemandChartTitle.textContent = `Щотижневий попит за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
         dailyDemandChartTitle.textContent = `Щоденний попит за розмірами для кольору ${chartType} (${productSelect})${titleSuffix}`;
     }
     // Update total sales
@@ -562,15 +606,18 @@ function updateChart() {
         }
     });
     // Update daily demand chart
+    const weeklyDemandDatasets = calculateWeeklyDemandData(productData, filteredMonths, chartType);
+    if (weeklyDemandChart) {
+        weeklyDemandChart.destroy();
     const dailyDemandDatasets = calculateDailyDemandData(productData, filteredMonths, chartType);
     if (dailyDemandChart) {
         dailyDemandChart.destroy();
     }
-    dailyDemandChart = new Chart(document.getElementById('dailyDemandChart').getContext('2d'), {
+    weeklyDemandChart = new Chart(document.getElementById('weeklyDemandChart').getContext('2d'), {
         type: 'bar',
         data: {
             labels: months,
-            datasets: dailyDemandDatasets
+            datasets: weeklyDemandDatasets
         },
         options: {
             responsive: true,
@@ -580,7 +627,7 @@ function updateChart() {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Щоденний попит (одиниць)'
+                        text: 'Щотижневий попит (одиниць)'
                     }
                 },
                 x: {
@@ -626,7 +673,7 @@ function init() {
         updateYearSelect(productData);
         updateMonthSelect(productData);
         updateColorSelect(productData);
-        updateWeeklyDemand(productData);
+        updateDailyDemandSummary(productData);
     }
     updateChart();
     document.getElementById('productSelect').addEventListener('change', () => {
@@ -639,7 +686,7 @@ function init() {
         updateYearSelect(productData);
         updateMonthSelect(productData);
         updateColorSelect(productData);
-        updateWeeklyDemand(productData);
+        updateDailyDemandSummary(productData);
         updateChart();
     });
     document.getElementById('chartType').addEventListener('change', () => {
@@ -653,6 +700,7 @@ function init() {
         }
         updateMonthSelect(productData);
         updateColorSelect(productData);
+        updateDailyDemandSummary(productData);
         updateWeeklyDemand(productData);
         updateChart();
     });
@@ -663,7 +711,7 @@ function init() {
             return;
         }
         updateColorSelect(productData);
-        updateWeeklyDemand(productData);
+        updateDailyDemandSummary(productData);
     });
     document.getElementById('colorSelect').addEventListener('change', () => {
         const productData = getProductByName(document.getElementById('productSelect').value);
@@ -671,6 +719,7 @@ function init() {
             console.error('Product not found when color changed');
             return;
         }
+        updateDailyDemandSummary(productData);
         updateWeeklyDemand(productData);
         updateChart();
     });
@@ -687,5 +736,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // Resize charts on window resize
 window.addEventListener('resize', () => {
     if (salesChart) salesChart.resize();
-    if (dailyDemandChart) dailyDemandChart.resize();
+    if (weeklyDemandChart) weeklyDemandChart.resize();
 });
