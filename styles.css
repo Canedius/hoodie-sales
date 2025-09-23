@@ -130,6 +130,9 @@ select:focus {
     color: #6c757d;
 }
 #dailyDemandList ul.fade-in {
+
+#weeklyDemandList ul.fade-in {
+
     animation: fadeIn 0.5s ease-in;
 }
 #dailyDemandList li.fade-in {
