@@ -129,10 +129,10 @@ select:focus {
 .total-sales .diff.neutral {
     color: #6c757d;
 }
-#weeklyDemandList ul.fade-in {
+#dailyDemandList ul.fade-in {
     animation: fadeIn 0.5s ease-in;
 }
-#weeklyDemandList li.fade-in {
+#dailyDemandList li.fade-in {
     animation: fadeIn 0.5s ease-in;
 }
 @keyframes fadeIn {
